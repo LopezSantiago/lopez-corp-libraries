@@ -1,0 +1,35 @@
+<ng-container *ngIf="control">
+  <mat-form-field
+    class="form-container"
+    [appearance]="control.label ? 'outline' : 'standard'"
+  >
+    <mat-label class="control-label" *ngIf="control.label">{{
+      control.label
+    }}</mat-label>
+    <input
+      matInput
+      (blur)="onBlur.emit(control.value)"
+      (keydown.enter)="onEnter.emit(control.value)"
+      autocomplete="off"
+      [type]="control.settings?.type || 'text'"
+      [readonly]="control.readOnly"
+      [required]="control.required"
+      [placeholder]="control.placeholder"
+      [formControl]="control"
+    />
+    <mat-icon
+      *ngIf="control.icon"
+      class="color-primary"
+      (click)="iconAction.emit()"
+      matPrefix
+      >{{ control.icon }}
+    </mat-icon>
+    <mat-hint>
+      {{ control.tooltip }}
+    </mat-hint>
+    <mat-error>
+      {{ control.errors | errorMessage: control.errorMessages }}
+      </mat-error
+    >
+  </mat-form-field>
+</ng-container>

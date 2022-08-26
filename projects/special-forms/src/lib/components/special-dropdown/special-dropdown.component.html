@@ -1,0 +1,46 @@
+dropdown S
+<!-- <mat-form-field
+  class="select-container"
+  *ngIf="_sfcontrol"
+  [ngClass]="{ 'readonly-wrapper': _sfcontrol.readOnly }"
+  [appearance]="_sfcontrol.label ? 'outline' : 'standard'"
+>
+  <mat-label
+    [ngClass]="{ 'is-link': _sfcontrol.appearance }"
+    class="control-label"
+    *ngIf="_sfcontrol.label && enableLabel"
+  >
+    {{ _sfcontrol.label | translate }}
+    <icon-button-link
+      *ngIf="_sfcontrol.appearance"
+      class="icon-btn"
+      [settings]="_sfcontrol.appearance.settings"
+    >
+    </icon-button-link>
+  </mat-label>
+  <mat-select
+    class="readonly-block"
+    [formControl]="_sfcontrol"
+    [required]="_sfcontrol.required"
+    (selectionChange)="selectItem($event.value)"
+    [attr.disabled]="_sfcontrol.disabled"
+    [placeholder]="_sfcontrol.placeholder | translate"
+  >
+    <mat-option *ngIf="!_sfcontrol.required" [value]="null">
+      {{ _sfcontrol.placeholder || "GENERAL.NOT_SELECTED" | translate }}
+    </mat-option>
+    <mat-option
+      *ngFor="let item of _sfcontrol.data.source | smartAsync | async"
+      [value]="item[_sfcontrol.data.fieldId]"
+    >
+      {{ item | concatenation: _sfcontrol.data.fieldName }}
+    </mat-option>
+  </mat-select>
+  <mat-icon *ngIf="_sfcontrol.icon" matSuffix>{{ _sfcontrol.icon }}</mat-icon>
+  <mat-hint *ngIf="_sfcontrol.tooltip">{{
+    _sfcontrol.tooltip | translate
+  }}</mat-hint>
+  <mat-error>
+    {{ _sfcontrol.errors | errorMessage | translate }}
+  </mat-error>
+</mat-form-field> -->

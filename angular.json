@@ -3,5 +3,36 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
+    "special-forms": {
+      "projectType": "library",
+      "root": "projects/special-forms",
+      "sourceRoot": "projects/special-forms/src",
+      "prefix": "spf",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/special-forms/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/special-forms/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/special-forms/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/special-forms/src/test.ts",
+            "tsConfig": "projects/special-forms/tsconfig.spec.json",
+            "karmaConfig": "projects/special-forms/karma.conf.js"
+          }
+        }
+      }
+    }
   }
 }

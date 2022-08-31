@@ -5,7 +5,7 @@ import {
   FormGroup,
 } from '@angular/forms';
 import * as _ from 'lodash';
-import { EControlTypes } from '../enums/control-types.enum';
+import { EControlTypes } from '../aux-data/control-types.enum';
 import { IFieldBasicData } from '../interfaces/field-basics.interfaces';
 import {
   IArraySettings,
@@ -31,6 +31,7 @@ export class SpecialFormControl<T>
   public hidden: boolean;
   public readOnly: boolean;
   public settings: T;
+  public theme: 'light' | 'dark';
   public type: EControlTypes;
   public errorMessages: { [key: string]: string };
 
@@ -51,7 +52,7 @@ export class SpecialFormControl<T>
     readOnly,
     required,
     tooltip,
-    errorMessages
+    errorMessages,
   }: TSpecialFields) {
     super(defaultValue, validators, asyncValidators);
 
@@ -68,7 +69,7 @@ export class SpecialFormControl<T>
     this.length = length;
     this.readOnly = readOnly;
     this.required = required;
-    this.errorMessages=errorMessages;
+    this.errorMessages = errorMessages;
   }
 
   setReadOnly(status: boolean = true) {
@@ -96,7 +97,8 @@ export class SpecialFormGroup extends FormGroup implements IFieldBasicData {
   public hidden: boolean;
   public readOnly: boolean;
   public settings: IFormSettings;
-  public type: EControlTypes;
+  public type: EControlTypes.form;
+  public theme: 'light' | 'dark';
   public defaultValue: any;
   public errorMessages: { [key: string]: string };
 
@@ -235,30 +237,28 @@ export class SpecialFormGroup extends FormGroup implements IFieldBasicData {
   getIdPkey(): SpecialFormControl<any> | undefined {
     return Object.values(this.controls).find(
       (control) =>
-        control instanceof SpecialFormControl &&
-        control.type === EControlTypes.pkey
+        control instanceof SpecialFormControl && control.type === 'PRIMARY-KEY'
     ) as SpecialFormControl<any> | undefined;
   }
 }
 
-export class SpecialFormArray
-  extends FormArray
-  implements Partial<IFieldBasicData>
-{
-  public name?: string;
-  public placeholder?: string;
-  public label?: string;
-  public tooltip?: string;
-  public icon?: string;
-  public elementId?: string;
-  public styleClasses?: string;
-  public required?: boolean;
-  public hidden?: boolean;
-  public readOnly?: boolean;
-  public settings?: IArraySettings;
-  public type?: EControlTypes;
-  public defaultValue?: any;
+export class SpecialFormArray extends FormArray implements IFieldBasicData {
+  public name: string;
+  public placeholder: string;
+  public label: string;
+  public tooltip: string;
+  public icon: string;
+  public elementId: string;
+  public styleClasses: string;
+  public required: boolean;
+  public hidden: boolean;
+  public readOnly: boolean;
+  public settings: IArraySettings;
+  public type: EControlTypes;
+  public defaultValue: any;
+  public theme: 'light' | 'dark';
   public form: SpecialFormGroup;
+  public errorMessages: { [key: string]: string };
 
   constructor(
     {
@@ -278,7 +278,7 @@ export class SpecialFormArray
       required,
       tooltip,
       errorMessages,
-    }: Partial<TSpecialArray>,
+    }: TSpecialArray,
     form: SpecialFormGroup,
     controls: AbstractControl[]
   ) {
@@ -297,6 +297,7 @@ export class SpecialFormArray
     this.readOnly = readOnly;
     this.required = required;
     this.defaultValue = defaultValue;
+    this.errorMessages = errorMessages;
   }
 
   fillFormArray(data: any[]) {

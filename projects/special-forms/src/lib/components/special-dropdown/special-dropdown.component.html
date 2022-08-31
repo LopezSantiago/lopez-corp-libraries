@@ -1,46 +1,32 @@
-dropdown S
-<!-- <mat-form-field
-  class="select-container"
-  *ngIf="_sfcontrol"
-  [ngClass]="{ 'readonly-wrapper': _sfcontrol.readOnly }"
-  [appearance]="_sfcontrol.label ? 'outline' : 'standard'"
+<mat-form-field
+  *ngIf="control"
+  [id]="control.elementId"
+  class="w-full {{ control.styleClasses }}"
+  [appearance]="control.label ? 'outline' : 'standard'"
 >
-  <mat-label
-    [ngClass]="{ 'is-link': _sfcontrol.appearance }"
-    class="control-label"
-    *ngIf="_sfcontrol.label && enableLabel"
-  >
-    {{ _sfcontrol.label | translate }}
-    <icon-button-link
-      *ngIf="_sfcontrol.appearance"
-      class="icon-btn"
-      [settings]="_sfcontrol.appearance.settings"
-    >
-    </icon-button-link>
+  <mat-label *ngIf="control.label">
+    {{ control.label }}
   </mat-label>
   <mat-select
-    class="readonly-block"
-    [formControl]="_sfcontrol"
-    [required]="_sfcontrol.required"
+    [panelClass]="control.styleClasses"
+    [formControl]="control"
+    [required]="control.required"
     (selectionChange)="selectItem($event.value)"
-    [attr.disabled]="_sfcontrol.disabled"
-    [placeholder]="_sfcontrol.placeholder | translate"
+    [placeholder]="control.placeholder"
   >
-    <mat-option *ngIf="!_sfcontrol.required" [value]="null">
-      {{ _sfcontrol.placeholder || "GENERAL.NOT_SELECTED" | translate }}
+    <mat-option *ngIf="!control.required" [value]="null">
+      {{ control.placeholder || control.settings.notSelectedText }}
     </mat-option>
     <mat-option
-      *ngFor="let item of _sfcontrol.data.source | smartAsync | async"
-      [value]="item[_sfcontrol.data.fieldId]"
+      *ngFor="let item of control.settings.source | async"
+      [value]="item[control.settings.fieldId]"
     >
-      {{ item | concatenation: _sfcontrol.data.fieldName }}
+      {{ item | textByFunction: control.settings.fieldName }}
     </mat-option>
   </mat-select>
-  <mat-icon *ngIf="_sfcontrol.icon" matSuffix>{{ _sfcontrol.icon }}</mat-icon>
-  <mat-hint *ngIf="_sfcontrol.tooltip">{{
-    _sfcontrol.tooltip | translate
-  }}</mat-hint>
+  <mat-icon *ngIf="control.icon" matSuffix>{{ control.icon }}</mat-icon>
+  <mat-hint *ngIf="control.tooltip">{{ control.tooltip }}</mat-hint>
   <mat-error>
-    {{ _sfcontrol.errors | errorMessage | translate }}
+    {{ control.errors | errorMessage: control.errorMessages }}
   </mat-error>
-</mat-form-field> -->
+</mat-form-field>

@@ -1,35 +1,37 @@
-<ng-container *ngIf="control">
-  <mat-form-field
-    class="form-container"
-    [appearance]="control.label ? 'outline' : 'standard'"
+<mat-form-field
+  *ngIf="control"
+  [id]="control.elementId"
+  class="w-full {{ control.styleClasses }}"
+  [appearance]="control.label ? 'outline' : 'standard'"
+>
+  <mat-label *ngIf="control.label">{{ control.label }}</mat-label>
+  <input
+    matInput
+    (blur)="onBlur.emit(control.value)"
+    (keydown.enter)="onEnter.emit(control.value)"
+    [inputMask]="control.settings?.mask"
+    autocomplete="off"
+    [type]="control.settings?.type || 'text'"
+    [readonly]="control.readOnly"
+    [required]="control.required"
+    [placeholder]="control.placeholder"
+    [formControl]="control"
+  />
+  <mat-icon *ngIf="control.icon" matPrefix>{{ control.icon }} </mat-icon>
+  <mat-hint>
+    {{ control.tooltip }}
+  </mat-hint>
+  <button
+    *ngIf="control.settings?.icon"
+    mat-icon-button
+    matSuffix
+    (click)="iconAction.emit()"
   >
-    <mat-label class="control-label" *ngIf="control.label">{{
-      control.label
-    }}</mat-label>
-    <input
-      matInput
-      (blur)="onBlur.emit(control.value)"
-      (keydown.enter)="onEnter.emit(control.value)"
-      autocomplete="off"
-      [type]="control.settings?.type || 'text'"
-      [readonly]="control.readOnly"
-      [required]="control.required"
-      [placeholder]="control.placeholder"
-      [formControl]="control"
-    />
-    <mat-icon
-      *ngIf="control.icon"
-      class="color-primary"
-      (click)="iconAction.emit()"
-      matPrefix
-      >{{ control.icon }}
+    <mat-icon>
+      {{ control.settings.icon }}
     </mat-icon>
-    <mat-hint>
-      {{ control.tooltip }}
-    </mat-hint>
-    <mat-error>
-      {{ control.errors | errorMessage: control.errorMessages }}
-      </mat-error
-    >
-  </mat-form-field>
-</ng-container>
+  </button>
+  <mat-error>
+    {{ control.errors | errorMessage: control.errorMessages }}
+  </mat-error>
+</mat-form-field>

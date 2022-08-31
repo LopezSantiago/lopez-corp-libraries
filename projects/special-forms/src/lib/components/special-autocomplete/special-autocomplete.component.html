@@ -1,0 +1,42 @@
+<ng-container *ngIf="control && !control.hidden">
+  <mat-form-field
+    class="w-full"
+    [appearance]="control.label ? 'outline' : 'standard'"
+  >
+    <mat-label
+      [ngClass]="{ 'is-link': control.label }"
+      class="control-label"
+      *ngIf="control.label"
+    >
+      {{ control.label }}
+    </mat-label>
+    <input
+      type="text"
+      autocomplete="off"
+      [required]="control.required"
+      [readonly]="control.readOnly"
+      [placeholder]="control.placeholder"
+      matInput
+      [formControl]="control"
+      [matAutocomplete]="auto"
+    />
+    <mat-autocomplete
+      class="autocomplete-options"
+      #auto="matAutocomplete"
+      [displayWith]="configValue"
+      (optionSelected)="optionSelected($event)"
+    >
+      <mat-option
+        *ngFor="let option of control.settings?.source | async"
+        [value]="option"
+      >
+        {{ option | textByFunction: control.settings.fieldName }}
+      </mat-option>
+    </mat-autocomplete>
+    <mat-icon *ngIf="control.icon" matSuffix>{{ control.icon }}</mat-icon>
+    <mat-hint>{{ control.tooltip }}</mat-hint>
+    <mat-error>
+      {{ control.errors | errorMessage: control.errorMessages }}
+    </mat-error>
+  </mat-form-field>
+</ng-container>

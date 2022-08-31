@@ -1,5 +1,5 @@
 import { InputmaskOptions } from '@ngneat/input-mask';
-import { EControlTypes } from '../../core/enums/control-types.enum';
+import { EControlTypes } from '../../core/aux-data/control-types.enum';
 import { IFieldData } from '../../core/interfaces/field-basics.interfaces';
 
 export type IInputSettings = {

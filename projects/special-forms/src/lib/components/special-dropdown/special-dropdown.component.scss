@@ -1,0 +1,72 @@
+:host {
+  display: contents;
+
+  .dark {
+    mat-label,
+    mat-hint,
+    mat-icon {
+      color: rgb(160, 160, 160);
+    }
+    ::ng-deep {
+      .mat-form-field-outline {
+        background-color: rgb(16, 22, 37);
+        border-radius: 15px;
+      }
+
+      .mat-select-arrow {
+        color: rgb(160, 160, 160);
+      }
+
+      .mat-select-min-line {
+        color: rgb(160, 160, 160);
+      }
+
+      .mat-form-field-outline-start {
+        border-radius: 15px 0 0 15px !important;
+        min-width: 15px !important;
+      }
+
+      .mat-form-field-outline-end {
+        border-radius: 0 15px 15px 0 !important;
+      }
+
+      input {
+        color: rgb(160, 160, 160);
+
+        &::placeholder {
+          color: rgb(160, 160, 160);
+        }
+      }
+    }
+  }
+}
+
+::ng-deep {
+  .dark {
+    background-color: rgb(16, 22, 37);
+    border-radius: 8px;
+    .mat-option-text {
+      color: rgb(160, 160, 160);
+    }
+
+    &::-webkit-scrollbar {
+      width: 16px;
+      height: 4px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background-color: rgb(16, 22, 37);
+    }
+
+    &::-webkit-scrollbar-thumb {
+      border-radius: 8px;
+      height: 46px;
+      background: linear-gradient(
+        180deg,
+        rgb(27, 41, 66, 1) 0%,
+        rgb(27, 16, 46, 1) 100%
+      );
+      outline: 1px solid rgb(27, 16, 46, 1);
+    }
+  }
+}

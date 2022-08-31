@@ -12,6 +12,6 @@ export enum EControlTypes {
   array = 'ARRAY',
   form = 'FORM',
   readOnly = 'READONLY',
-  default = 'default',
-  phone = 'phone',
+  default = 'DEFAULT',
+  phone = 'PHONE',
 }

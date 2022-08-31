@@ -1,0 +1,34 @@
+:host {
+  display: contents;
+
+  .dark {
+    mat-label,
+    mat-hint,
+    mat-icon {
+      color: rgb(160, 160, 160);
+    }
+    ::ng-deep {
+      .mat-form-field-outline {
+        background-color: rgb(16, 22, 37);
+        border-radius: 15px;
+      }
+
+      .mat-form-field-outline-start {
+        border-radius: 15px 0 0 15px !important;
+        min-width: 15px !important;
+      }
+
+      .mat-form-field-outline-end {
+        border-radius: 0 15px 15px 0 !important;
+      }
+
+      input {
+        color: rgb(160, 160, 160);
+
+        &::placeholder{
+          color: rgb(160, 160, 160);
+        }
+      }
+    }
+  }
+}

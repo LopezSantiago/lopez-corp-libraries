@@ -1,5 +1,12 @@
 @import "../../../../../../node_modules/@angular/material/prebuilt-themes/indigo-pink.css";
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
 
-:host {
-  width: 100%;
+.dark {
+  background: linear-gradient(93deg, rgba(0,0,0,1) 0%, rgba(29,43,69,1) 0%, rgba(27,15,46,1) 100%);
+  border-radius: 8px;
+  .text{
+    color: rgb(160, 160, 160);
+  }
 }

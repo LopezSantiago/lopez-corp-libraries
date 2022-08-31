@@ -1,6 +1,8 @@
 import {
-  Component,
+  Component, Input,
 } from '@angular/core';
+import { SpecialFormControl } from '../../core/forms/special-forms';
+import { IDropdownSettings } from './special-dropdown.interface';
 
 @Component({
   selector: 'sp-dropdown',
@@ -8,6 +10,8 @@ import {
   styleUrls: ['./special-dropdown.component.scss'],
 })
 export class SpecialDropdownComponent {
+  @Input() control: SpecialFormControl<IDropdownSettings>;
+
   // @Input('readOnly') _readOnly = false;
   // @Input() enableLabel = true;
   // @Input('sfcontrol') _sfcontrol: SpecialFormControl & {
@@ -19,7 +23,7 @@ export class SpecialDropdownComponent {
 
   // ngOnInit() {}
 
-  // selectItem(item) {
+  selectItem(item) {
   //   this._sendObject.emit(item);
-  // }
+  }
 }

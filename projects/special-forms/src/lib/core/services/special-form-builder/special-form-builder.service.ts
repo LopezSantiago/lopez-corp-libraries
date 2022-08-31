@@ -1,12 +1,11 @@
 import { Injectable } from '@angular/core';
 import {
   AbstractControl,
-  FormControl,
   ValidatorFn,
   Validators,
 } from '@angular/forms';
-import { IInputField } from '../../../components/special-input/special-input.interface';
-import { EControlTypes } from '../../enums/control-types.enum';
+import { IAutocompleteSettings } from '../../../components/special-autocomplete/special-autocomplete.interface';
+import { EControlTypes } from '../../aux-data/control-types.enum';
 import {
   SpecialFormArray,
   SpecialFormControl,
@@ -24,7 +23,7 @@ import {
 
 interface IControlParams {
   name: string;
-  control: AbstractControl;
+  control: SpecialFormArray | SpecialFormGroup | SpecialFormControl<any>;
 }
 
 @Injectable({
@@ -40,6 +39,7 @@ export class SpecialFormBuilderService {
     icon: '',
     label: '',
     length: 0,
+    theme:'light',
     placeholder: '',
     readOnly: false,
     required: false,
@@ -75,12 +75,13 @@ export class SpecialFormBuilderService {
 
   constructor() {}
 
-  public control(field: Partial<TSpecialFields>) {
-    const formField: TSpecialForm = {
+  public control(field: Partial<TSpecialFields>): SpecialFormControl<any> {
+    const formField: TSpecialFields = {
       ...this.inputDefectField,
       ...field,
-    } as TSpecialForm;
-    return new SpecialFormControl(formField);
+    } as TSpecialFields;
+    const { control } = this.setFormControl(formField);
+    return control;
   }
 
   public group(fields: IFormStructure) {
@@ -135,7 +136,10 @@ export class SpecialFormBuilderService {
     return new SpecialFormGroup(formField, structure);
   }
 
-  setFormGroup(field: TSpecialForm): IControlParams {
+  setFormGroup(field: TSpecialForm): {
+    name: string;
+    control: SpecialFormGroup;
+  } {
     const control = this.formGenerator(
       this.fieldDataToArray(field.settings.formFields),
       field
@@ -143,7 +147,10 @@ export class SpecialFormBuilderService {
     return { control, name: field.name };
   }
 
-  private setFormArray(field: TSpecialArray): IControlParams {
+  private setFormArray(field: TSpecialArray): {
+    name: string;
+    control: SpecialFormArray;
+  } {
     const auxForm = this.formGenerator(
       this.fieldDataToArray(field.settings.formFields),
       {}
@@ -161,10 +168,13 @@ export class SpecialFormBuilderService {
     };
   }
 
-  private setFormControl(field: TSpecialFields): IControlParams {
+  private setFormControl(field: TSpecialFields): {
+    name: string;
+    control: SpecialFormControl<any>;
+  } {
     const validators: ValidatorFn[] = [];
 
-    if (field.required) validators.push(Validators.required);
+    if (field.required) validators.push(this.setRequiredValidator(field));
     if (field.length) validators.push(Validators.maxLength(field.length));
 
     field.validators = this.setValidatorsArray(field.validators, validators);
@@ -175,6 +185,16 @@ export class SpecialFormBuilderService {
     };
   }
 
+  private setRequiredValidator(field: TSpecialFields): ValidatorFn {
+    if (field.type !== EControlTypes.autocomplete) {
+      return Validators.required;
+    }
+
+    return (control: SpecialFormControl<IAutocompleteSettings>) =>
+      !!control.value && control.value instanceof Object
+        ? null
+        : { required: true };
+  }
   private setValidatorsArray(
     validators: ValidatorFn | ValidatorFn[] | null,
     newValidators: ValidatorFn[]

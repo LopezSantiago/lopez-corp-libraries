@@ -1,6 +1,7 @@
+import { IAutocompleteField } from '../../components/special-autocomplete/special-autocomplete.interface';
 import { IDropdownField } from '../../components/special-dropdown/special-dropdown.interface';
 import { IInputField } from '../../components/special-input/special-input.interface';
-import { EControlTypes } from '../enums/control-types.enum';
+import { EControlTypes } from '../aux-data/control-types.enum';
 import { IFieldData } from './field-basics.interfaces';
 
 interface IcontrolName {
@@ -29,7 +30,8 @@ export type TRawFields =
   | IInputField
   | IDropdownField
   | IArrayField
-  | IFormField;
+  | IFormField
+  | IAutocompleteField;
 // | TextControlFieldModel
 // | PhoneControlFieldModel
 // | LongTextControlFieldModel
@@ -47,12 +49,14 @@ export type TSpecialInput = IInputField & IcontrolName;
 export type TSpecialDropdown = IDropdownField & IcontrolName;
 export type TSpecialArray = IArrayField & IcontrolName;
 export type TSpecialForm = IFormField & IcontrolName;
+export type TSpecialAutocomplete = IAutocompleteField & IcontrolName;
 
 export type TSpecialFields =
   | TSpecialInput
   | TSpecialDropdown
   | TSpecialArray
-  | TSpecialForm;
+  | TSpecialForm
+  | TSpecialAutocomplete;
 
 export interface IFormStructure {
   [name: string]: Partial<TRawFields>;

@@ -11,7 +11,6 @@ export enum EControlTypes {
   multiple = 'MULTIPLE-AUTOCOMPLETE',
   array = 'ARRAY',
   form = 'FORM',
-  readOnly = 'READONLY',
+  label = 'LABEL',
   default = 'DEFAULT',
-  phone = 'PHONE',
 }

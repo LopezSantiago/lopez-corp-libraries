@@ -1,0 +1,189 @@
+<div class="w-full box-border p-2">
+  <div
+    *ngIf="formArray"
+    class="w-full mt-2 p-3 border-slate-200 border border-solid box-border"
+  >
+    <h1 *ngIf="!!formArray.label" class="font-bold py-3">
+      {{ formArray.label }}
+    </h1>
+    <div class="divide-y divide-solid">
+      <div
+        *ngIf="formArray.form"
+        class="grid gap-4 grid-cols-12 md:grid-cols-15"
+      >
+        <ng-container *ngIf="!withFormHeader; else FORMHEADERREF">
+          <h2
+            class="font-bold"
+            *ngFor="let item of formArray.form | controlsList"
+          >
+            {{ item.label }}
+          </h2>
+        </ng-container>
+        <ng-template #FORMHEADERREF>
+          <ng-container *ngFor="let item of formArray.form | controlsList">
+            <ng-template controlRender [control]="item"></ng-template>
+          </ng-container>
+          <div
+            class="
+              col-start-7 col-end-13
+              md:col-start-13 md:col-end-16
+              pb-5
+              my-auto
+              ml-auto
+              md:m-auto
+            "
+          >
+            <button
+              mat-flat-button
+              color="primary"
+              [disabled]="formArray.form.invalid"
+              (click)="addItem()"
+            >
+              Add
+            </button>
+          </div>
+        </ng-template>
+      </div>
+      <div
+        class="w-full pt-5 grid gap-4 grid-cols-12 md:grid-cols-15"
+        *ngFor="let formGroup of formArray.controls; let i = index"
+      >
+        <ng-container *ngFor="let item of formGroup | controlsList">
+          <ng-template controlRender [control]="item"></ng-template>
+        </ng-container>
+        <div
+          class="
+            col-start-7 col-end-13
+            md:col-start-13 md:col-end-16
+            pb-5
+            my-auto
+            ml-auto
+            md:m-auto
+          "
+        >
+          <button mat-flat-button color="warn" (click)="removeItem(i)">
+            Remove
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- <table class="form-array-container__table">
+    <thead *ngIf="formArray.form">
+      <tr
+        *ngIf="headerForm; else HEADERFORMREF"
+        class="form-array-container__table-header"
+      >
+        <th
+          class="header-cell"
+          *ngFor="let control of formArray.form | controlsList"
+        >
+          {{ control.label | translate }}
+        </th>
+        <th *ngIf="!formArray.readOnly"></th>
+      </tr>
+      <ng-template #HEADERFORMREF>
+        <tr class="table-form-header">
+          <th
+            class="header-cell"
+            [ngSwitch]="control.type"
+            *ngFor="let control of formArray.form | controlsList"
+          >
+            <sp-form-control-selector
+              [control]="control"
+            ></sp-form-control-selector>
+          </th>
+          <th class="header-cell" *ngIf="!formArray.readOnly">
+            <ng-container *ngTemplateOutlet="ADDBUTTON"></ng-container>
+          </th>
+        </tr>
+      </ng-template>
+    </thead> -->
+
+<!-- [ngStyle]="{'max-height':'calc(100vh - '+maxHeight+'px)' }"> -->
+<!-- <tbody>
+      <tr *ngFor="let formGroup of formArray.controls; let i = index">
+        <td [ngSwitch]="control.type" *ngFor="let control of formGroup.controls | controlsList">
+          <sp-form-control-selector
+            [control]="control"
+          ></sp-form-control-selector>
+        </td>
+        <td *ngIf="!formArray.readOnly">
+          <bmb-button
+            [icon]="'delete_outline'"
+            [type]="'Raised'"
+            [size]="'XLarge'"
+            [bdrColor]="'error-500'"
+            [tColor]="'error-500'"
+            (onClick)="deleteItem(i)"
+          >
+          </bmb-button>
+        </td>
+      </tr>
+    </tbody> -->
+<!-- </table> -->
+
+<!-- <ng-template #TABLET>
+  <div class="mt-1">
+    <ng-container *ngIf="headerFormEnable">
+      <div class="card-form-container">
+        <automatic-forms [form]="formArray.form" [enableButtons]="false">
+        </automatic-forms>
+        <ng-container *ngTemplateOutlet="ADDBUTTON"></ng-container>
+      </div>
+    </ng-container>
+    <ng-content select="[header]"></ng-content>
+  </div>
+  <div class="accordion-container">
+    <mat-accordion>
+      <mat-expansion-panel
+        class="mat-elevation-z1"
+        *ngFor="let item of formArray.controls; let i = index"
+      >
+        <mat-expansion-panel-header
+          class="expanded-header"
+          collapsedHeight="3rem"
+          expandedHeight="3rem"
+        >
+          <ng-container
+            *ngTemplateOutlet="cardHeaderTemplate; context: { $implicit: item }"
+          >
+          </ng-container>
+          <mat-icon
+            *ngIf="!formArray.readOnly"
+            class="mobile-delete"
+            (click)="deleteItem(i)"
+            color="warn"
+          >
+            delete_outline
+          </mat-icon>
+        </mat-expansion-panel-header>
+        <ng-container
+          *ngTemplateOutlet="cardBodyTemplate; context: { $implicit: item }"
+        >
+        </ng-container>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </div>
+</ng-template>
+
+<div class="text-error" *ngIf="formArray.dirty && formArray.invalid">
+  {{ formArray.errors | errorMessage | translate }}
+</div>
+
+<ng-template #ADDBUTTON>
+  <div class="add-item-btn">
+    <bmb-button
+      [icon]="'add'"
+      [type]="'Raised'"
+      [bdrColor]="'aux-success'"
+      [size]="'XLarge'"
+      [tColor]="'aux-success'"
+      [disabled]="!formArray.form.valid || !formArray.form.dirty"
+      (onClick)="addItemAction()"
+    >
+    </bmb-button>
+  </div>
+</ng-template> -->

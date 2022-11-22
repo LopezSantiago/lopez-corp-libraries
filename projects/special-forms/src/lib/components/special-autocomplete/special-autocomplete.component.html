@@ -1,6 +1,6 @@
 <ng-container *ngIf="control && !control.hidden">
   <mat-form-field
-    class="w-full"
+    class="w-full {{ control.styleClasses }}"
     [appearance]="control.label ? 'outline' : 'standard'"
   >
     <mat-label
@@ -27,13 +27,33 @@
       (optionSelected)="optionSelected($event)"
     >
       <mat-option
-        *ngFor="let option of control.settings?.source | async"
+        *ngFor="let option of settings?.source | async"
         [value]="option"
       >
-        {{ option | textByFunction: control.settings.fieldName }}
+        <div class="flex items-center">
+          <img
+            *ngIf="settings.fieldImage"
+            class="w-8 pr-2"
+            alt=""
+            [src]="option | textByFunction: settings.fieldImage"
+          />
+          <span>
+            {{ option | textByFunction: settings.fieldName }}
+          </span>
+        </div>
       </mat-option>
     </mat-autocomplete>
-    <mat-icon *ngIf="control.icon" matSuffix>{{ control.icon }}</mat-icon>
+    <mat-icon *ngIf="control.icon" matPrefix>{{ control.icon }}</mat-icon>
+    <button
+      *ngIf="settings.icon"
+      mat-icon-button
+      matSuffix
+      (click)="iconClick($event)"
+    >
+      <mat-icon>
+        {{ settings.icon }}
+      </mat-icon>
+    </button>
     <mat-hint>{{ control.tooltip }}</mat-hint>
     <mat-error>
       {{ control.errors | errorMessage: control.errorMessages }}

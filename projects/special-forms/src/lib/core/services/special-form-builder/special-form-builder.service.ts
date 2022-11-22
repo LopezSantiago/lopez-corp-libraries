@@ -1,9 +1,5 @@
 import { Injectable } from '@angular/core';
-import {
-  AbstractControl,
-  ValidatorFn,
-  Validators,
-} from '@angular/forms';
+import { AbstractControl, ValidatorFn, Validators } from '@angular/forms';
 import { IAutocompleteSettings } from '../../../components/special-autocomplete/special-autocomplete.interface';
 import { EControlTypes } from '../../aux-data/control-types.enum';
 import {
@@ -25,7 +21,6 @@ interface IControlParams {
   name: string;
   control: SpecialFormArray | SpecialFormGroup | SpecialFormControl<any>;
 }
-
 @Injectable({
   providedIn: 'root',
 })
@@ -38,8 +33,8 @@ export class SpecialFormBuilderService {
     hidden: false,
     icon: '',
     label: '',
+    disabled: false,
     length: 0,
-    theme:'light',
     placeholder: '',
     readOnly: false,
     required: false,
@@ -101,19 +96,20 @@ export class SpecialFormBuilderService {
     field: Partial<TRawFields>
   ): TSpecialFields {
     return {
-      name,
       ...this.inputDefectField,
       ...field,
+      name,
     } as TSpecialFields;
   }
 
   private formGenerator(
     fields: TSpecialFields[],
-    field: Partial<TSpecialForm>
+    parentField: Partial<TSpecialForm>,
+    isChild = false
   ): SpecialFormGroup {
     const formField: TSpecialForm = {
       ...this.formDefectField,
-      ...field,
+      ...parentField,
     };
     const structure = fields
       .map((field) => {
@@ -133,16 +129,17 @@ export class SpecialFormBuilderService {
         }),
         {}
       );
-    return new SpecialFormGroup(formField, structure);
+    return new SpecialFormGroup(formField, structure, isChild);
   }
 
-  setFormGroup(field: TSpecialForm): {
+  private setFormGroup(field: TSpecialForm): {
     name: string;
     control: SpecialFormGroup;
   } {
     const control = this.formGenerator(
       this.fieldDataToArray(field.settings.formFields),
-      field
+      field,
+      true
     );
     return { control, name: field.name };
   }
@@ -151,10 +148,15 @@ export class SpecialFormBuilderService {
     name: string;
     control: SpecialFormArray;
   } {
-    const auxForm = this.formGenerator(
-      this.fieldDataToArray(field.settings.formFields),
-      {}
-    );
+    const auxForm = (value = {}) => {
+      const auxForm = this.formGenerator(
+        this.fieldDataToArray(field.settings.formFields),
+        {},
+        true
+      );
+      auxForm.reset(value);
+      return auxForm;
+    };
 
     if (field.required) {
       field.validators = this.setValidatorsArray(field.validators, [

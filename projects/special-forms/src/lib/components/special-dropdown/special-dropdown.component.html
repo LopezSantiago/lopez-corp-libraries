@@ -8,10 +8,9 @@
     {{ control.label }}
   </mat-label>
   <mat-select
-    [panelClass]="control.styleClasses"
     [formControl]="control"
     [required]="control.required"
-    (selectionChange)="selectItem($event.value)"
+    (selectionChange)="optionSelected($event.value)"
     [placeholder]="control.placeholder"
   >
     <mat-option *ngIf="!control.required" [value]="null">
@@ -24,7 +23,17 @@
       {{ item | textByFunction: control.settings.fieldName }}
     </mat-option>
   </mat-select>
-  <mat-icon *ngIf="control.icon" matSuffix>{{ control.icon }}</mat-icon>
+  <button
+    *ngIf="settings.icon"
+    mat-icon-button
+    matSuffix
+    (click)="iconClick($event)"
+  >
+    <mat-icon>
+      {{ settings.icon }}
+    </mat-icon>
+  </button>
+  <mat-icon *ngIf="control.icon" matPrefix>{{ control.icon }}</mat-icon>
   <mat-hint *ngIf="control.tooltip">{{ control.tooltip }}</mat-hint>
   <mat-error>
     {{ control.errors | errorMessage: control.errorMessages }}

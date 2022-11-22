@@ -1,0 +1,81 @@
+<div
+  class="w-full {{ control.styleClasses }}"
+  *ngIf="control && !control.hidden"
+>
+  <mat-form-field
+    [id]="control.elementId"
+    [appearance]="control.label ? 'outline' : 'standard'"
+  >
+    <mat-label *ngIf="control.label">
+      {{ control.label }}
+    </mat-label>
+    <input
+      type="text"
+      autocomplete="off"
+      [required]="control.required && !control.value?.length"
+      [readonly]="control.readOnly"
+      [placeholder]="control.placeholder"
+      matInput
+      [formControl]="internalControl"
+      [matAutocomplete]="auto"
+    />
+    <mat-autocomplete
+      class="autocomplete-options"
+      #auto="matAutocomplete"
+      [displayWith]="configValue"
+      (optionSelected)="optionSelected($event)"
+    >
+      <mat-option
+        *ngFor="let option of settings?.source | async"
+        [value]="option"
+      >
+        <div class="flex items-center">
+          <img
+            *ngIf="settings.fieldImage"
+            class="w-8 pr-2 object-contain"
+            alt=""
+            [src]="option | textByFunction: settings.fieldImage"
+          />
+          <span>
+            {{ option | textByFunction: settings.fieldName }}
+          </span>
+        </div>
+      </mat-option>
+    </mat-autocomplete>
+    <mat-icon *ngIf="control.icon" matPrefix>{{ control.icon }}</mat-icon>
+    <button
+      *ngIf="settings.icon"
+      mat-icon-button
+      matSuffix
+      (click)="iconClick($event)"
+    >
+      <mat-icon>
+        {{ settings.icon }}
+      </mat-icon>
+    </button>
+    <mat-hint>{{ control.tooltip }}</mat-hint>
+    <mat-error>
+      {{ control.errors | errorMessage: control.errorMessages }}
+    </mat-error>
+  </mat-form-field>
+
+  <mat-chip-list>
+    <mat-chip
+      class="chip-style"
+      *ngFor="let chip of control.value"
+      [removable]="true"
+      (removed)="remove(chip)"
+    >
+      <div class="flex items-center">
+        <img
+          *ngIf="settings.fieldImage"
+          class="w-8 pr-2 object-contain"
+          alt=""
+          [src]="chip | textByFunction: settings.fieldImage"
+        />
+        {{ chip | textByFunction: settings.fieldName }}
+        <mat-icon matChipRemove>cancel</mat-icon>
+      </div>
+    </mat-chip>
+  </mat-chip-list>
+</div>

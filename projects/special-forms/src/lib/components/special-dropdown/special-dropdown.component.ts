@@ -1,6 +1,4 @@
-import {
-  Component, Input,
-} from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { SpecialFormControl } from '../../core/forms/special-forms';
 import { IDropdownSettings } from './special-dropdown.interface';
 
@@ -12,18 +10,18 @@ import { IDropdownSettings } from './special-dropdown.interface';
 export class SpecialDropdownComponent {
   @Input() control: SpecialFormControl<IDropdownSettings>;
 
-  // @Input('readOnly') _readOnly = false;
-  // @Input() enableLabel = true;
-  // @Input('sfcontrol') _sfcontrol: SpecialFormControl & {
-  //   data: DropdownTypesData;
-  // };
-  // @Output('sendObject') _sendObject: EventEmitter<Object> = new EventEmitter();
+  get settings(): IDropdownSettings {
+    return this.control.settings;
+  }
 
-  // value: any = '';
+  iconClick(event) {
+    if (this.settings.iconAction) {
+      this.settings.iconAction(this.control.value);
+      event.stopPropagation();
+    }
+  }
 
-  // ngOnInit() {}
-
-  selectItem(item) {
-  //   this._sendObject.emit(item);
+  optionSelected(value) {
+    if (this.settings.onSelect) this.settings.onSelect(value);
   }
 }

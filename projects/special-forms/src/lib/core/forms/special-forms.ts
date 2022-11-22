@@ -4,7 +4,6 @@ import {
   FormControl,
   FormGroup,
 } from '@angular/forms';
-import * as _ from 'lodash';
 import { EControlTypes } from '../aux-data/control-types.enum';
 import { IFieldBasicData } from '../interfaces/field-basics.interfaces';
 import {
@@ -14,7 +13,6 @@ import {
   TSpecialForm,
   TSpecialArray,
 } from '../interfaces/form.interfaces';
-
 export class SpecialFormControl<T>
   extends FormControl
   implements IFieldBasicData
@@ -31,7 +29,6 @@ export class SpecialFormControl<T>
   public hidden: boolean;
   public readOnly: boolean;
   public settings: T;
-  public theme: 'light' | 'dark';
   public type: EControlTypes;
   public errorMessages: { [key: string]: string };
 
@@ -53,6 +50,7 @@ export class SpecialFormControl<T>
     required,
     tooltip,
     errorMessages,
+    disabled,
   }: TSpecialFields) {
     super(defaultValue, validators, asyncValidators);
 
@@ -70,6 +68,7 @@ export class SpecialFormControl<T>
     this.readOnly = readOnly;
     this.required = required;
     this.errorMessages = errorMessages;
+    disabled ? this.disable() : this.enable();
   }
 
   setReadOnly(status: boolean = true) {
@@ -98,9 +97,9 @@ export class SpecialFormGroup extends FormGroup implements IFieldBasicData {
   public readOnly: boolean;
   public settings: IFormSettings;
   public type: EControlTypes.form;
-  public theme: 'light' | 'dark';
   public defaultValue: any;
   public errorMessages: { [key: string]: string };
+  public isChild: boolean;
 
   constructor(
     {
@@ -120,10 +119,12 @@ export class SpecialFormGroup extends FormGroup implements IFieldBasicData {
       readOnly,
       required,
       tooltip,
+      disabled,
     }: TSpecialForm,
     controls: {
       [key: string]: SpecialFormControl<any>;
-    }
+    },
+    isChild
   ) {
     super(controls, validators, asyncValidators);
 
@@ -141,6 +142,9 @@ export class SpecialFormGroup extends FormGroup implements IFieldBasicData {
     this.readOnly = readOnly;
     this.required = required;
     this.defaultValue = defaultValue;
+
+    this.isChild = isChild;
+    disabled ? this.disable() : this.enable();
   }
 
   unpristineRequired() {
@@ -256,8 +260,8 @@ export class SpecialFormArray extends FormArray implements IFieldBasicData {
   public settings: IArraySettings;
   public type: EControlTypes;
   public defaultValue: any;
-  public theme: 'light' | 'dark';
   public form: SpecialFormGroup;
+  private formCreation: (value?: any) => SpecialFormGroup;
   public errorMessages: { [key: string]: string };
 
   constructor(
@@ -278,12 +282,14 @@ export class SpecialFormArray extends FormArray implements IFieldBasicData {
       required,
       tooltip,
       errorMessages,
+      disabled,
     }: TSpecialArray,
-    form: SpecialFormGroup,
+    formCreation: () => SpecialFormGroup,
     controls: AbstractControl[]
   ) {
     super(controls, validators, asyncValidators);
-    this.form = form;
+    this.formCreation = formCreation;
+    this.form = this.formCreation();
     this.name = name;
     this.placeholder = placeholder;
     this.label = label;
@@ -298,34 +304,38 @@ export class SpecialFormArray extends FormArray implements IFieldBasicData {
     this.required = required;
     this.defaultValue = defaultValue;
     this.errorMessages = errorMessages;
+    disabled ? this.disable() : this.enable();
   }
 
   fillFormArray(data: any[]) {
-    this.clear();
-    data.map((item) => {
-      this.form.specialReset(item);
-      this.push(_.cloneDeep(this.form));
-    });
     this.form.reset();
+    this.clear();
+    data.forEach((item) => {
+      const form = this.formCreation(item);
+      this.push(form);
+    });
   }
 
-  addItem(item: any) {
-    this.form.specialReset(item);
-    this.push(_.cloneDeep(this.form));
+  addItem() {
+    const form = this.formCreation(this.form.value);
+
     this.form.specialReset();
+    this.push(form);
     this.markAsDirty();
   }
 
-  SpecialPush(index?: number) {
-    if (!index) this.push(_.cloneDeep(this.form));
+  specialPush(index?: number) {
+    const form = this.formCreation(this.form.value);
+    if (!index) this.push(form);
     else this.controls[index].reset(this.form.value);
   }
 
-  SpecialInsert(index = 0) {
-    this.insert(index, _.cloneDeep(this.form));
+  specialInsert(index = 0) {
+    const form = this.formCreation(this.form.value);
+    this.insert(index, form);
   }
 
-  SpecialEdit(index: number, newValue: Object) {
+  specialEdit(index: number, newValue: Object) {
     this.controls[index].reset({ ...this.controls[index].value, ...newValue });
     this.markAsDirty();
   }

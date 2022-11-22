@@ -1,0 +1,17 @@
+<div class="w-full box-border p-2">
+  <div
+    *ngIf="control"
+    [class]="
+      control.isChild
+        ? 'w-full mt-2 p-3 border-slate-200 border border-solid box-border'
+        : 'container'
+    "
+  >
+    <h1 *ngIf="!!control.label" class="font-bold py-3">{{ control.label }}</h1>
+    <div class="w-full flex flex-wrap">
+      <ng-container *ngFor="let item of control | controlsList">
+        <ng-template controlRender [control]="item"></ng-template>
+      </ng-container>
+    </div>
+  </div>
+</div>

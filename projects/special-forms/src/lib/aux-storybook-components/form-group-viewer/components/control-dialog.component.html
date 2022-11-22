@@ -1,0 +1,45 @@
+<div class="container divide-y divide-solid">
+  <h1 class="p-5 font-bold">Crear nuevo control</h1>
+  <div class="p-5 overflow-y-auto">
+    <sp-form [control]="formGroup"></sp-form>
+  </div>
+  <div class="flex justifify-center p-5">
+    <div class="w-full md:w-2/4">
+      &#123;"type": {{ formGroup.value.type | json }}, <br />
+      "placeholder": {{ formGroup.value.placeholder | json }}<br />
+      "label": {{ formGroup.value.label | json }}<br />
+      "tooltip": {{ formGroup.value.tooltip | json }}<br />
+      "icon":{{ formGroup.value.icon?.name }} ><br />
+      "required": {{ formGroup.value.required | json }}<br />
+      "readOnly": {{ formGroup.value.readOnly | json }}<br />
+      "hidden": {{ formGroup.value.hidden | json }}<br />
+      "disabled": {{ formGroup.value.disabled | json }}<br />
+      "length": {{ formGroup.value.length | json }}&#125; <br />
+    </div>
+    <sp-form-control-selector
+      *ngIf="control"
+      [control]="control"
+    ></sp-form-control-selector>
+  </div>
+  <div class="flex justify-end p-5">
+    <div class="mx-1">
+      <button
+        mat-stroked-button
+        color="warn"
+        (click)="cancel()"
+      >
+        Cancelar
+      </button>
+    </div>
+    <div class="mx-1">
+      <button
+        mat-stroked-button
+        color="primary"
+        [disabled]="formGroup.invalid"
+        (click)="addControl()"
+      >
+        Aceptar
+      </button>
+    </div>
+  </div>
+</div>

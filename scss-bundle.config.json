@@ -1,0 +1,6 @@
+{
+  "bundlerOptions":{
+    "entryFile":"./projects/special-forms/src/lib/assets/styles.scss",
+    "outFile":"./dist/special-forms/_special-forms.styles.scss"
+  }
+}

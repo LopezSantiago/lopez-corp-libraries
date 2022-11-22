@@ -22,6 +22,10 @@ import { SpecialFormBuilderService } from '../../core/services';
   encapsulation: ViewEncapsulation.None,
 })
 export class FormControlViewerComponent implements OnInit {
+  @Input('field') set fieldSetter(field: any) {
+    this.control = this.specialFormBuilderService.control(field);
+  }
+
   @Input('input') set inputSetter(field: any) {
     field.settings.mask = Masks[field.settings.mask];
     this.control = this.specialFormBuilderService.control(field);
@@ -38,7 +42,14 @@ export class FormControlViewerComponent implements OnInit {
     this.control = this.specialFormBuilderService.control(field);
   }
 
-  @Input() theme: 'light' | 'dark' = 'light';
+  @Input() theme;
+
+  // @Input('theme') set themeSetter(theme: 'light' | 'dark') {
+  //   const classes = document.querySelector('body.sb-show-main').classList;
+  //   theme === 'dark'
+  //     ? classes.add('dark', 'mat-app-background')
+  //     : classes.remove('dark', 'mat-app-background');
+  // }
 
   @Output() getData: EventEmitter<string> = new EventEmitter();
 

@@ -1,13 +1,11 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { debounceTime } from 'rxjs/operators';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-import { Subscription, } from 'rxjs';
+import { Subscription } from 'rxjs';
 import * as _ from 'lodash';
 
 import { SpecialFormControl } from '../../core/forms/special-forms';
-import {
-  IAutocompleteSettings,
-} from './special-autocomplete.interface';
+import { IAutocompleteSettings } from './special-autocomplete.interface';
 @Component({
   selector: 'sp-autocomplete',
   templateUrl: './special-autocomplete.component.html',
@@ -15,34 +13,45 @@ import {
 })
 export class SpecialAutocompleteComponent {
   @Input() control: SpecialFormControl<IAutocompleteSettings>;
-  @Output() select: EventEmitter<any> = new EventEmitter();
 
   subs = new Subscription();
 
   constructor() {}
 
-  ngOnInit(){
+  ngOnInit() {
     this.init();
   }
+
+  get settings(): IAutocompleteSettings {
+    return this.control.settings;
+  }
+
   init() {
     this.subs.add(
       this.control.valueChanges.pipe(debounceTime(500)).subscribe((value) => {
         if (typeof value === 'string') {
-          this.control.settings.getData(value,this.control);
+          this.settings.getData(value, this.control);
         }
       })
     );
   }
-
   configValue = (item: any) => {
     if (!item) return '';
-    const fieldName = this.control.settings.fieldName;
+    const fieldName = this.settings.fieldName;
     return fieldName instanceof Function ? fieldName(item) : item[fieldName];
   };
 
   optionSelected(data: MatAutocompleteSelectedEvent) {
     this.control.setValue(data.option.value);
-    this.select.emit(data.option.value);
+    if (this.settings.onSelect)
+      this.settings.onSelect(data.option.value);
+  }
+
+  iconClick(event) {
+    if (this.settings.iconAction) {
+      this.settings.iconAction(this.control.value);
+      event.stopPropagation();
+    }
   }
 
   ngOnDestroy() {

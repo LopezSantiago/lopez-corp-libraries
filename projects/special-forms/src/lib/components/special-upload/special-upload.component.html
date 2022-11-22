@@ -1,0 +1,50 @@
+<div class="special_upload mb-2">
+  <ngx-dropzone
+    class="special_upload__dropzone"
+    [ngClass]="{
+      'special_upload--error-dashed':
+        !!control.errors && (control.dirty || control.touched)
+    }"
+    [multiple]="control.settings?.multiple"
+    [accept]="
+      control.settings?.accept
+        ? control.settings?.accept
+        : 'image/png, .jpeg, .jpg, image/gif'
+    "
+    (change)="
+      control.settings?.multiple
+        ? onSelectMultiple($event)
+        : onSelectOne($event)
+    "
+  >
+    <ngx-dropzone-label
+      [ngClass]="{
+        'special_upload--error':
+          !!control.errors && (control.dirty || control.touched)
+      }"
+    >
+      <mat-icon class="special_upload__icon"*ngIf="control.icon">{{ control.icon }} </mat-icon>
+      <h2 class="text-base font-bold">
+        {{ control.label }}
+      </h2>
+      <h3 class="text-base">
+        {{ control.placeholder }}
+      </h3>
+    </ngx-dropzone-label>
+    <ngx-dropzone-preview
+      *ngFor="let file of previewImages"
+      [removable]="true"
+      (removed)="onRemove(file)"
+    >
+      <ngx-dropzone-label class="special_upload__card">
+        <img class="special_upload__card--image" [src]="file?.url" alt="" />
+      </ngx-dropzone-label>
+    </ngx-dropzone-preview>
+  </ngx-dropzone>
+  <div
+    class="special_upload--error mt-2"
+    *ngIf="!!control.errors && (control.dirty || control.touched)"
+  >
+    {{ control.errors | errorMessage: control.errorMessages }}
+  </div>
+</div>

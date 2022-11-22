@@ -1,0 +1,29 @@
+<mat-form-field
+  *ngIf="control"
+  [id]="control.elementId"
+  class="w-full {{ control.styleClasses }}"
+  [appearance]="control.label ? 'outline' : 'standard'"
+>
+  <mat-label *ngIf="control.label">{{ control.label }}</mat-label>
+  <textarea
+    cdkTextareaAutosize
+    #autosize="cdkTextareaAutosize"
+    cdkAutosizeMinRows="1"
+    cdkAutosizeMaxRows="5"
+    matInput
+    (blur)="onBlur.emit(control.value)"
+    (keydown.enter)="onEnter.emit(control.value)"
+    [type]="control.settings?.type || 'text'"
+    [readonly]="control.readOnly"
+    [required]="control.required"
+    [placeholder]="control.placeholder"
+    [formControl]="control"
+  ></textarea>
+  <mat-icon *ngIf="control.icon" matPrefix>{{ control.icon }} </mat-icon>
+  <mat-hint>
+    {{ control.tooltip }}
+  </mat-hint>
+  <mat-error>
+    {{ control.errors | errorMessage: control.errorMessages }}
+  </mat-error>
+</mat-form-field>

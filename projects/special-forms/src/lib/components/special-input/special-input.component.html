@@ -7,11 +7,11 @@
   <mat-label *ngIf="control.label">{{ control.label }}</mat-label>
   <input
     matInput
-    (blur)="onBlur.emit(control.value)"
-    (keydown.enter)="onEnter.emit(control.value)"
-    [inputMask]="control.settings?.mask"
+    (blur)="onBlurAction()"
+    (keydown.enter)="onEnterClick()"
+    [inputMask]="settings?.mask"
     autocomplete="off"
-    [type]="control.settings?.type || 'text'"
+    [type]="settings?.type || 'text'"
     [readonly]="control.readOnly"
     [required]="control.required"
     [placeholder]="control.placeholder"
@@ -22,13 +22,13 @@
     {{ control.tooltip }}
   </mat-hint>
   <button
-    *ngIf="control.settings?.icon"
+    *ngIf="settings?.icon"
     mat-icon-button
     matSuffix
-    (click)="iconAction.emit()"
+    (click)="iconClick($event)"
   >
     <mat-icon>
-      {{ control.settings.icon }}
+      {{ settings.icon }}
     </mat-icon>
   </button>
   <mat-error>

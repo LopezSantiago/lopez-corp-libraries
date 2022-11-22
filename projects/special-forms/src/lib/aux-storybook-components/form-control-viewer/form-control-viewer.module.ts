@@ -2,19 +2,13 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormControlViewerComponent } from './form-control-viewer.component';
 import { SpecialFormBuilderService } from '../../core/services';
-import {
-  SpecialDropdownModule,
-  SpecialInputModule,
-  SpecialAutocompleteModule,
-} from '../../components';
+import { FormControlSelectorModule } from '../form-control-selector/form-control-selector.module';
 
 @NgModule({
   declarations: [FormControlViewerComponent],
   imports: [
     CommonModule,
-    SpecialInputModule,
-    SpecialDropdownModule,
-    SpecialAutocompleteModule,
+    FormControlSelectorModule
   ],
   exports: [FormControlViewerComponent],
   providers: [SpecialFormBuilderService],

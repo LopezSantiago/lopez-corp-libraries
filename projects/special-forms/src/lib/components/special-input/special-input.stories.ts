@@ -6,6 +6,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { EControlTypes } from '../../core/aux-data/control-types.enum';
 import { ICONS_CONTROL } from '../../core/controls';
 import { MasksEnum } from '../../core/masks/maks.enum';
+import { FieldBasicData } from '../../core/aux-data/field-basic-data';
+import { THEMES_CONTROL } from '../../core/controls/theme.control';
 
 export default {
   title: 'Special input control',
@@ -18,7 +20,7 @@ export default {
   argTypes: {
     icon: ICONS_CONTROL,
     icon2: ICONS_CONTROL,
-    theme: { control: 'radio', options: ['light', 'dark'] },
+    theme: THEMES_CONTROL,
     length: { control: { type: 'range', min: 1, max: 100, step: 5 } },
     mask: {
       control: 'select',
@@ -69,17 +71,18 @@ const Template: Story<FormControlViewerComponent> = (
         elementId: elementId,
         styleClasses: styleClasses,
         length: length,
-        defaultValue:defaultValue,
+        defaultValue: defaultValue,
         required: required,
-        hidden: false,
+        hidden: hidden,
         readOnly: readOnly,
-        type:'INPUT',
+        disabled: disabled,
+        type: type,
+        errorMessages: errorMessages,
         settings:{
           icon:icon2,
           mask:mask,
           type:inputType
-        },
-        errorMessages: errorMessages
+        }
       }"
       >
     </spf-form-control-viewer>`,
@@ -91,43 +94,20 @@ const Template: Story<FormControlViewerComponent> = (
 
 export const light = Template.bind({});
 light.args = {
-  placeholder: 'Placeholder',
-  label: 'Label',
-  tooltip: 'Tooltip',
-  icon: 'accessible',
-  elementId: 'Element-id',
-  styleClasses: '',
-  length: 0,
-  required: true,
-  readOnly: false,
-  errorMessages: {},
-  asyncValidators: null,
-  validators: null,
-  theme:'light',
+  ...FieldBasicData,
+  theme: 'light',
   defaultValue: 'Default',
-  icon2: 'accessible',
+  icon2: 'search',
   mask: null,
   inputType: 'text',
 };
 
 export const dark = Template.bind({});
 dark.args = {
-  placeholder: 'Placeholder',
-  label: 'Label',
-  tooltip: 'Tooltip',
-  icon: 'accessible',
-  elementId: 'Element-id',
-  styleClasses: 'dark',
-  length: 0,
-  required: true,
-  readOnly: false,
-  errorMessages: {},
-  asyncValidators: null,
-  validators: null,
-  theme:'dark',
+  ...FieldBasicData,
+  theme: 'dark',
   defaultValue: 'Default',
-  icon2: 'accessible',
+  icon2: 'search',
   mask: null,
   inputType: 'text',
 };
-

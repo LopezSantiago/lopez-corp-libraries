@@ -1,0 +1,6 @@
+<div class="px-2 {{control.styleClasses}} {{ control.value | textByFunction: settings.stylesPipe}}">
+  <div *ngIf="!!control.label" class="font-bold">{{control.label}}</div>
+  <div [ngClass]="{'cursor-pointer text-blue-600 hover:text-blue-700':settings.isLink }" (click)="onLink()">
+    {{ control.value | textByFunction: control.settings.pipe}}
+  </div>
+</div>

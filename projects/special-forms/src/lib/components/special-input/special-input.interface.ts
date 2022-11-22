@@ -4,8 +4,11 @@ import { IFieldData } from '../../core/interfaces/field-basics.interfaces';
 
 export type IInputSettings = {
   type?: string;
-  icon?: string;
   mask?: InputmaskOptions<any>;
+  icon?: string;
+  iconAction?: (data: any) => void;
+  onEnter?: (data: any) => void;
+  onBlur?: (data: any) => void;
 };
 
 export interface IInputField extends IFieldData {

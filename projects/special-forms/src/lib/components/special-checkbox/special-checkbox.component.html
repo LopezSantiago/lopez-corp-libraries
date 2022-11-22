@@ -1,0 +1,17 @@
+<div
+  *ngIf="control"
+  [id]="control.elementId"
+  class="w-full flex flex-col {{ control.styleClasses }}"
+>
+  <mat-label *ngIf="control.label">{{ control.label }}</mat-label>
+  <mat-checkbox
+    [ngModel]="control.value"
+    (ngModelChange)="control.setValue($event); control.markAsDirty()"
+    [indeterminate]="control.settings.indeterminate"
+    [labelPosition]="control.settings.labelPosition"
+    [disabled]="control.disabled"
+  >
+    <mat-icon *ngIf="control.icon" matSuffix>{{ control.icon }} </mat-icon>
+    {{ control.placeholder }}
+  </mat-checkbox>
+</div>

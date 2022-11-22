@@ -3,8 +3,11 @@ import { Story, Meta } from '@storybook/angular';
 import { moduleMetadata } from '@storybook/angular';
 import { FormControlViewerComponent } from '../../aux-storybook-components/form-control-viewer/form-control-viewer.component';
 import { FormControlViewerModule } from '../../aux-storybook-components/form-control-viewer/form-control-viewer.module';
+import { EControlTypes } from '../../core/aux-data/control-types.enum';
 import { countries } from '../../core/aux-data/countries';
+import { FieldBasicData } from '../../core/aux-data/field-basic-data';
 import { ICONS_CONTROL } from '../../core/controls';
+import { THEMES_CONTROL } from '../../core/controls/theme.control';
 import { SpecialDropdownComponent } from './special-dropdown.component';
 
 export default {
@@ -17,11 +20,12 @@ export default {
   ],
   argTypes: {
     icon: ICONS_CONTROL,
+    theme: THEMES_CONTROL,
   },
 } as Meta;
 
-const Template: Story<SpecialDropdownComponent> = (
-  args: SpecialDropdownComponent
+const Template: Story<FormControlViewerComponent> = (
+  args: FormControlViewerComponent
 ) => ({
   title: 'Special dropdown control',
   template: `
@@ -39,36 +43,27 @@ const Template: Story<SpecialDropdownComponent> = (
       hidden: false,
       readOnly: readOnly,
       defaultValue:defaultValue,
-      type:'DROPDOWN',
+      type:type,
+      errorMessages: errorMessages,
       settings:{
         source:source,
         fieldId: fieldId,
         fieldName:fieldName,
         notSelectedText:notSelectedText
-      },
-      errorMessages: errorMessages
+      }
     }"
     >
   </spf-form-control-viewer>`,
   props: {
     ...args,
+    type: EControlTypes.dropdown,
   },
 });
 
 export const light = Template.bind({});
 light.args = {
-  placeholder: 'Placeholder',
-  label: 'Label',
-  tooltip: 'Tooltip',
-  icon: 'accessible',
-  elementId: 'Element-id',
-  styleClasses: '',
-  length: 0,
-  required: true,
-  readOnly: false,
-  errorMessages: {},
-  asyncValidators: null,
-  validators: null,
+  ...FieldBasicData,
+  theme: 'light',
   defaultValue: 'CO',
   notSelectedText:'Seleccione un item',
   fieldName: 'name',
@@ -78,19 +73,8 @@ light.args = {
 
 export const dark = Template.bind({});
 dark.args = {
-  placeholder: 'Placeholder',
-  label: 'Label',
-  tooltip: 'Tooltip',
-  icon: 'accessible',
-  elementId: 'Element-id',
-  styleClasses: 'dark',
-  theme:'dark',
-  length: 0,
-  required: true,
-  readOnly: false,
-  errorMessages: {},
-  asyncValidators: null,
-  validators: null,
+  ...FieldBasicData,
+  theme: 'dark',
   defaultValue: 'CO',
   notSelectedText:'Seleccione un item',
   fieldName: 'name',

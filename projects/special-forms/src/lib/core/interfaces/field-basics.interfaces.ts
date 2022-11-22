@@ -11,7 +11,7 @@ export interface IFieldBasicData {
   required: boolean;
   hidden: boolean;
   readOnly: boolean;
-  theme: 'dark' | 'light';
+  disabled:boolean;
   errorMessages: { [key: string]: string };
 }
 

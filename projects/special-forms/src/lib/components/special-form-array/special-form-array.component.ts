@@ -2,9 +2,7 @@ import {
   Component,
   OnInit,
   Input,
-  ContentChild,
-  Output,
-  EventEmitter,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { EControlTypes } from '../../core/aux-data/control-types.enum';
@@ -16,6 +14,7 @@ import {
   selector: 'sp-array',
   templateUrl: './special-form-array.component.html',
   styleUrls: ['./special-form-array.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SpecialArrayComponent implements OnInit {
   @Input() set control(formArray: SpecialFormArray) {
@@ -31,6 +30,11 @@ export class SpecialArrayComponent implements OnInit {
   get withFormHeader() {
     return !!this.formArray.settings.withFormHeader;
   }
+
+  get settings() {
+    return this.formArray.settings;
+  }
+
 
   get controlTypes(): typeof EControlTypes {
     return EControlTypes;

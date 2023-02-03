@@ -1,13 +1,16 @@
 import { Pipe, PipeTransform } from '@angular/core';
+import { AbstractControl } from '@angular/forms';
 import {
   SpecialFormControl,
-  SpecialFormGroup,
 } from '../../core/forms/special-forms';
 
 @Pipe({ name: 'controlsList' })
 export class FormControlsListPipe implements PipeTransform {
-  transform(formGroup: SpecialFormGroup): SpecialFormControl<any>[] {
-    return Object.values(formGroup.controls)
+  transform(controls: {
+    [key: string]: AbstractControl;
+  }): SpecialFormControl<any>[] {
+    if (!controls) return [];
+    return Object.values(controls)
       .filter((control: SpecialFormControl<any>) => !control.hidden)
       .map((control) => control as SpecialFormControl<any>);
   }

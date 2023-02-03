@@ -1,11 +1,11 @@
-import { Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { SpecialFormControl } from '../../core/forms/special-forms';
 import { IDropdownSettings } from './special-dropdown.interface';
-
 @Component({
   selector: 'sp-dropdown',
   templateUrl: './special-dropdown.component.html',
   styleUrls: ['./special-dropdown.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SpecialDropdownComponent {
   @Input() control: SpecialFormControl<IDropdownSettings>;

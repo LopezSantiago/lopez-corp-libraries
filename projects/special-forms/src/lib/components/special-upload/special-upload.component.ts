@@ -2,11 +2,13 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { SpecialFormControl } from '../../core/forms/special-forms';
 import { IUploadSettings } from './special-upload.interface';
 import { DomSanitizer } from '@angular/platform-browser';
+import { ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
   selector: 'sp-upload',
   templateUrl: './special-upload.component.html',
   styleUrls: ['./special-upload.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SpecialUploadComponent implements OnInit {
   control: SpecialFormControl<IUploadSettings>;

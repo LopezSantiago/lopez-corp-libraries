@@ -9,21 +9,34 @@
     <div class="divide-y divide-solid">
       <div
         *ngIf="formArray.form"
-        class="grid gap-4 grid-cols-12 md:grid-cols-15"
+        [ngClass]="{ 'md:grid-cols-15': settings.withActionButtons }"
+        class="grid gap-4 grid-cols-12"
       >
         <ng-container *ngIf="!withFormHeader; else FORMHEADERREF">
           <h2
-            class="font-bold"
-            *ngFor="let item of formArray.form | controlsList"
+            [class]="item.styleClasses"
+            *ngFor="let item of formArray.form.control | controlsList"
           >
             {{ item.label }}
           </h2>
+          <div
+            *ngIf="settings.withActionButtons"
+            class="
+              col-start-7 col-end-13
+              md:col-start-13 md:col-end-16
+              pb-5
+              my-auto
+              ml-auto
+              md:m-auto
+            "
+          ></div>
         </ng-container>
         <ng-template #FORMHEADERREF>
-          <ng-container *ngFor="let item of formArray.form | controlsList">
+          <ng-container *ngFor="let item of formArray.form.control | controlsList">
             <ng-template controlRender [control]="item"></ng-template>
           </ng-container>
           <div
+            *ngIf="settings.withActionButtons"
             class="
               col-start-7 col-end-13
               md:col-start-13 md:col-end-16
@@ -48,7 +61,7 @@
         class="w-full pt-5 grid gap-4 grid-cols-12 md:grid-cols-15"
         *ngFor="let formGroup of formArray.controls; let i = index"
       >
-        <ng-container *ngFor="let item of formGroup | controlsList">
+        <ng-container *ngFor="let item of formGroup.control | controlsList">
           <ng-template controlRender [control]="item"></ng-template>
         </ng-container>
         <div

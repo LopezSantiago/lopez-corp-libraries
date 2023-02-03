@@ -1,30 +1,33 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
-import { of, Subject, Subscription } from 'rxjs';
-import { ICON_NAMES } from '../../../core/aux-data/all-icons';
+import {
+  combineLatest,
+  debounceTime,
+  filter,
+  forkJoin,
+  map,
+  of,
+  startWith,
+  Subject,
+  Subscription,
+  switchMap,
+  tap,
+} from 'rxjs';
 import { EControlTypes } from '../../../core/aux-data/control-types.enum';
 import {
   SpecialFormControl,
   SpecialFormGroup,
 } from '../../../core/forms/special-forms';
-import { IFormStructure } from '../../../core/interfaces/form.interfaces';
+import { TRawFields } from '../../../core/interfaces/form.interfaces';
 import { SpecialFormBuilderService } from '../../../core/services';
-import { EnumToArray } from '../../../core/utils/enum-to-array.util';
-import { numberMask } from '../../../core/masks/number.mask';
-import { ControlsForm } from './control-dialog.form';
-interface IFieldFormData {
-  type: any;
-  placeholder: string;
-  label: string;
-  name: string;
-  tooltip: string;
-  icon: { name: string };
-  length: number;
-  required: boolean;
-  readOnly: boolean;
-  hidden: boolean;
-  disabled: boolean;
-}
+import { FieldFormClass } from './settings-strategy/field.form';
+import { CommonFormCreator } from './settings-strategy/common.form.interface';
+import { InputFormClass } from './settings-strategy/input.form';
+import { DropDownFormClass } from './settings-strategy/dropdown.form';
+import { AutocompleteFormClass } from './settings-strategy/autocomplete.form';
+import { DatePickerFormClass } from './settings-strategy/datepicker.form';
+import { CheckboxFormClass } from './settings-strategy/checkbox.form';
+
 @Component({
   selector: 'spf-control-dialog',
   templateUrl: './control-dialog.component.html',
@@ -32,73 +35,70 @@ interface IFieldFormData {
   encapsulation: ViewEncapsulation.None,
 })
 export class ControlDialogComponent implements OnInit {
-  private iconsSub = new Subject<any[]>();
-  icons$ = this.iconsSub.asObservable();
   sub = new Subscription();
-
   formGroup: SpecialFormGroup;
-  control: SpecialFormControl<any>;
+  settingsForm: SpecialFormGroup;
+  control: SpecialFormGroup;
+  formField = new FieldFormClass();
+  settingsCreator: CommonFormCreator;
 
   constructor(
-    private specialFormBuilderService: SpecialFormBuilderService,
+    private formBuilder: SpecialFormBuilderService,
     public dialogRef: MatDialogRef<ControlDialogComponent>
   ) {}
 
-  get controlTypes(): typeof EControlTypes {
-    return EControlTypes;
+  ngOnInit(): void {
+    this.formGroup = this.formBuilder.group(this.formField.fields());
+
+    this.formGroup
+      .get('type')
+      .valueChanges.pipe(
+        filter((type) => !!type),
+        tap((type) => {
+          this.settingsCreator = this.settingsCreation(type);
+          const settingsForm = this.formBuilder.group(
+            this.settingsCreator.settingsFields()
+          );
+          this.formGroup.setControl('settings', settingsForm);
+        })
+      )
+      .subscribe();
+
+    this.formGroup.valueChanges.pipe(debounceTime(10)).subscribe((value) => {
+      console.log(value);
+      // const control = this.formBuilder.control(value);
+      // console.log(control);
+      // console.log(this.formGroup);
+    });
+    // this.sub.add(
+    //   combineLatest([this.formGroup.valueChanges, settings$])
+    //     .pipe(debounceTime(10))
+    //     .subscribe(([control, settings]) => {
+    //       // const field = this.formField.getField(control, settings);
+    //       // this.control = this.formBuilder.group(field);
+    //     })
+    // );
   }
 
-  ngOnInit(): void {
-    this.formGroup = this.specialFormBuilderService.group(ControlsForm());
-    this.sub.add(
-      this.formGroup.valueChanges.subscribe((data: IFieldFormData) => {
-        if (!!data.type) this.control = this.controlCreation(data);
-      })
-    );
-  }
-  controlCreation(data: IFieldFormData): SpecialFormControl<any> {
-    switch (data.type) {
+  settingsCreation(type: EControlTypes): CommonFormCreator {
+    switch (type) {
+      case EControlTypes.input:
+        return new InputFormClass();
       case EControlTypes.dropdown:
-        return this.specialFormBuilderService.control({
-          ...data,
-          icon: data.icon?.name,
-          settings: {
-            fieldId: '',
-            fieldName: '',
-            source: of([]),
-          },
-        });
+        return new DropDownFormClass();
       case EControlTypes.autocomplete:
       case EControlTypes.multiple:
-        return this.specialFormBuilderService.control({
-          ...data,
-          icon: data.icon?.name,
-          settings: {
-            fieldId: '',
-            fieldName: '',
-            source: of([]),
-            getData: (query) => {
-              console.log(query);
-            },
-          },
-        });
+        return new AutocompleteFormClass();
+      case EControlTypes.date:
+        return new DatePickerFormClass();
+      case EControlTypes.checkbox:
+        return new CheckboxFormClass();
       default:
-        return this.specialFormBuilderService.control({
-          ...data,
-          icon: data.icon?.name,
-          settings: {},
-        });
+        return new InputFormClass();
     }
   }
 
   cancel() {}
-
-  getIcons(query) {
-    const filteredIcons = ICON_NAMES.filter((icon) => icon.includes(query))
-      .slice(0, 10)
-      .map((icon) => ({ name: icon }));
-    this.iconsSub.next(filteredIcons);
-  }
 
   ngOnDestroy() {
     this.sub.unsubscribe();

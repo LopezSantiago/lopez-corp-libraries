@@ -1,15 +1,14 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 import { debounceTime } from 'rxjs/operators';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { Subscription } from 'rxjs';
-import * as _ from 'lodash';
-
 import { SpecialFormControl } from '../../core/forms/special-forms';
 import { IAutocompleteSettings } from './special-autocomplete.interface';
 @Component({
   selector: 'sp-autocomplete',
   templateUrl: './special-autocomplete.component.html',
   styleUrls: ['./special-autocomplete.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SpecialAutocompleteComponent {
   @Input() control: SpecialFormControl<IAutocompleteSettings>;
@@ -43,8 +42,7 @@ export class SpecialAutocompleteComponent {
 
   optionSelected(data: MatAutocompleteSelectedEvent) {
     this.control.setValue(data.option.value);
-    if (this.settings.onSelect)
-      this.settings.onSelect(data.option.value);
+    if (this.settings.onSelect) this.settings.onSelect(data.option.value);
   }
 
   iconClick(event) {

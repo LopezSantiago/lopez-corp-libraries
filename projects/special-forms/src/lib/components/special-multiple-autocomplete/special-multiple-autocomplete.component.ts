@@ -1,16 +1,16 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { debounceTime } from 'rxjs/operators';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { Subscription } from 'rxjs';
-import * as _ from 'lodash';
-
 import { SpecialFormControl } from '../../core/forms/special-forms';
 import { IMultipleAutocompleteSettings } from './special-multiple-autocomplete.interface';
 import { FormControl } from '@angular/forms';
+
 @Component({
   selector: 'sp-multiple-autocomplete',
   templateUrl: './special-multiple-autocomplete.component.html',
   styleUrls: ['./special-multiple-autocomplete.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SpecialMultipleAutocompleteComponent {
   @Input() control: SpecialFormControl<IMultipleAutocompleteSettings>;

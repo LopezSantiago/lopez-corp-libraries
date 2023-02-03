@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { SpecialFormControl } from '../../core/forms/special-forms';
 import { ILabelSettings } from './special-label.interface';
 
@@ -6,6 +6,7 @@ import { ILabelSettings } from './special-label.interface';
   selector: 'sp-label',
   templateUrl: './special-label.component.html',
   styleUrls: ['./special-label.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SpecialLabelComponent implements OnInit {
   @Input() control: SpecialFormControl<ILabelSettings>;

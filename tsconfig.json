@@ -18,6 +18,7 @@
     "importHelpers": true,
     "target": "es2020",
     "paths": {
+      "@lib/*": ["projects/special-forms/src/lib/*"],
       "special-forms": [
         "dist/special-forms"
       ]

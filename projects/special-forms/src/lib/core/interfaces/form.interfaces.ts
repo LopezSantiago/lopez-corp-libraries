@@ -26,6 +26,7 @@ export interface IFormField extends IFieldData {
 export type IArraySettings = {
   formFields: IFormStructure;
   withFormHeader?: boolean;
+  withActionButtons?: boolean;
 };
 
 export interface IArrayField extends IFieldData {
@@ -33,7 +34,13 @@ export interface IArrayField extends IFieldData {
   type: EControlTypes.array;
 }
 
+export interface IDefaultField extends IFieldData {
+  settings: any;
+  type: EControlTypes.default;
+}
+
 export type TRawFields =
+  | IDefaultField
   | IInputField
   | IDropdownField
   | IArrayField
@@ -47,6 +54,7 @@ export type TRawFields =
   | ICheckboxField;
 
 export type TSpecialInput = IInputField & IcontrolName;
+export type TSpecialDefault = IDefaultField & IcontrolName;
 export type TSpecialDropdown = IDropdownField & IcontrolName;
 export type TSpecialArray = IArrayField & IcontrolName;
 export type TSpecialForm = IFormField & IcontrolName;
@@ -58,6 +66,7 @@ export type ISpecialLabel = ILabelField & IcontrolName;
 export type ISpecialUpload = IUploadField & IcontrolName;
 
 export type TSpecialFields =
+  | TSpecialDefault
   | TSpecialInput
   | TSpecialDropdown
   | TSpecialArray

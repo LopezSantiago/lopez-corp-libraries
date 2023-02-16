@@ -1,12 +1,41 @@
 @import "../../assets/styles.scss";
 
-.dark {
-  background: linear-gradient(93deg, rgba(0,0,0,1) 0%, rgba(29,43,69,1) 0%, rgba(27,15,46,1) 100%);
-  .text{
-    color: rgb(160, 160, 160);
+.dark-theme {
+  background: linear-gradient(
+    93deg,
+    rgba(0, 0, 0, 1) 0%,
+    rgba(29, 43, 69, 1) 0%,
+    rgba(27, 15, 46, 1) 100%
+  );
+  .text {
+    color: rgb(200, 200, 200);
   }
 }
 
-.light{
-  background-color: white
+.light-theme {
+  background-color: white;
+}
+
+.control-wrapper {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: auto 1rem auto;
+  padding: 1rem 1rem 0;
+  border: 2px solid rgb(20 83 45);
+  color: rgb(200, 200, 200);
+
+  .close {
+    grid-column: 3 / span 1;
+    grid-row: 1 / span 1;
+    justify-self: end;
+  }
+
+  .control {
+    grid-column: 1 / span 3;
+    grid-row: 3 / span 1;
+  }
+
+  &:hover {
+    cursor: move;
+  }
 }

@@ -15,7 +15,7 @@
         <ng-container *ngIf="!withFormHeader; else FORMHEADERREF">
           <h2
             [class]="item.styleClasses"
-            *ngFor="let item of formArray.form.control | controlsList"
+            *ngFor="let item of formArray.form.controls | controlsList"
           >
             {{ item.label }}
           </h2>
@@ -32,9 +32,12 @@
           ></div>
         </ng-container>
         <ng-template #FORMHEADERREF>
-          <ng-container *ngFor="let item of formArray.form.control | controlsList">
-            <ng-template controlRender [control]="item"></ng-template>
-          </ng-container>
+          <ng-template
+            *ngFor="let item of formArray.form.controls | controlsList"
+            controlRender
+            [components]="componentsBuffer"
+            [control]="item"
+          ></ng-template>
           <div
             *ngIf="settings.withActionButtons"
             class="
@@ -61,9 +64,12 @@
         class="w-full pt-5 grid gap-4 grid-cols-12 md:grid-cols-15"
         *ngFor="let formGroup of formArray.controls; let i = index"
       >
-        <ng-container *ngFor="let item of formGroup.control | controlsList">
-          <ng-template controlRender [control]="item"></ng-template>
-        </ng-container>
+        <ng-template
+          *ngFor="let item of formGroup.controls | controlsList"
+          controlRender
+          [components]="componentsBuffer"
+          [control]="item"
+        ></ng-template>
         <div
           class="
             col-start-7 col-end-13

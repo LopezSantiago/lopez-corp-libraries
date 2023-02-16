@@ -63,7 +63,7 @@ const Template: Story<FormControlViewerComponent> = (
 export const light = Template.bind({});
 light.args = {
   ...FieldBasicData,
-  theme: 'light',
+  theme: 'light-theme',
   defaultValue: { name: 'Colombia', code: 'CO' },
   fieldName: 'name',
   fieldId: 'code',
@@ -73,7 +73,7 @@ light.args = {
 export const dark = Template.bind({});
 dark.args = {
   ...FieldBasicData,
-  theme: 'dark',
+  theme: 'dark-theme',
   defaultValue: { name: 'Colombia', code: 'CO' },
   fieldName: 'name',
   fieldId: 'code',

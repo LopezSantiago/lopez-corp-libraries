@@ -1,10 +1,10 @@
 import {
   Component,
   EventEmitter,
+  HostBinding,
   Input,
   OnInit,
   Output,
-  ViewEncapsulation,
 } from '@angular/core';
 import { EControlTypes } from '../../core/aux-data/control-types.enum';
 import { SpecialFormControl } from '../../core/forms/special-forms';
@@ -14,12 +14,12 @@ import {
 } from '../../core/interfaces/form.interfaces';
 import { Masks } from '../../core/masks/maks.enum';
 import { SpecialFormBuilderService } from '../../core/services';
+import { OverlayContainer } from '@angular/cdk/overlay';
 
 @Component({
   selector: 'spf-form-control-viewer',
   templateUrl: './form-control-viewer.component.html',
   styleUrls: ['./form-control-viewer.component.scss'],
-  encapsulation: ViewEncapsulation.None,
 })
 export class FormControlViewerComponent implements OnInit {
   @Input('field') set fieldSetter(field: any) {
@@ -42,20 +42,21 @@ export class FormControlViewerComponent implements OnInit {
     this.control = this.specialFormBuilderService.control(field);
   }
 
-  @Input() theme;
-
-  // @Input('theme') set themeSetter(theme: 'light' | 'dark') {
-  //   const classes = document.querySelector('body.sb-show-main').classList;
-  //   theme === 'dark'
-  //     ? classes.add('dark', 'mat-app-background')
-  //     : classes.remove('dark', 'mat-app-background');
-  // }
+  @Input('theme') set themeSetter(theme: string) {
+    this.overlayContainer.getContainerElement().classList.add(theme);
+    this.theme = theme;
+  }
 
   @Output() getData: EventEmitter<string> = new EventEmitter();
 
   control: SpecialFormControl<any>;
 
-  constructor(private specialFormBuilderService: SpecialFormBuilderService) {}
+  theme
+
+  constructor(
+    private overlayContainer: OverlayContainer,
+    private specialFormBuilderService: SpecialFormBuilderService
+  ) {}
 
   get controlTypes(): typeof EControlTypes {
     return EControlTypes;

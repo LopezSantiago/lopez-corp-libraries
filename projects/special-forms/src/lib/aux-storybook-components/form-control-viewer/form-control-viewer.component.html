@@ -1,4 +1,4 @@
-<div class="p-5 {{ theme }}" *ngIf="control">
+<div class="p-5 {{theme}}" *ngIf="control">
   <div class="text">Tipo: {{ control.type }}</div>
   <sp-form-control-selector [control]="control"></sp-form-control-selector>
   <div class="mt-4 text">Valor: {{ control.value | json }}</div>

@@ -10,7 +10,7 @@ export class CommonFormClass {
       placeholder: 'Buscar',
       label,
       tooltip: 'Selecciona una opción',
-      styleClasses: 'px-2 box-border md:w-1/4',
+      styleClasses: 'px-2 box-border md:w-2/4',
       icon: 'format_italic',
       type: EControlTypes.autocomplete,
       settings: {

@@ -1,6 +1,12 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  HostBinding,
+} from '@angular/core';
 import { SpecialFormControl } from '../../core/forms/special-forms';
 import { IDropdownSettings } from './special-dropdown.interface';
+import { OverlayContainer } from '@angular/cdk/overlay';
 @Component({
   selector: 'sp-dropdown',
   templateUrl: './special-dropdown.component.html',
@@ -24,4 +30,5 @@ export class SpecialDropdownComponent {
   optionSelected(value) {
     if (this.settings.onSelect) this.settings.onSelect(value);
   }
+
 }

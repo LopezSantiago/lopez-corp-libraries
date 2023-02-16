@@ -2,16 +2,19 @@
   <div
     *ngIf="form"
     [class]="
-      form.isChild
+      form.label
         ? 'w-full mt-2 p-3 border-slate-200 border border-solid box-border'
         : 'container'
     "
   >
-    <h1 *ngIf="!!form.label" class="font-bold py-3">{{ control.label }}</h1>
+    <h1 *ngIf="!!form.label" class="font-bold py-3">{{ form.label }}</h1>
     <div class="w-full flex flex-wrap">
-      <ng-container *ngFor="let item of controls;trackBy: trackByFn">
-        <ng-template controlRender [control]="item.control"></ng-template>
-      </ng-container>
+      <ng-template
+        *ngFor="let control of form.controls | controlsList"
+        controlRender
+        [control]="control"
+        [components]="componentsBuffer"
+      ></ng-template>
     </div>
   </div>
 </div>

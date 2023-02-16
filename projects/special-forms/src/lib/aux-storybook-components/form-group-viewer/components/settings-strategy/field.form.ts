@@ -1,5 +1,4 @@
 import { IInputSettings } from '@lib/components/special-input/special-input.interface';
-import { InputTypes } from '@lib/components/special-input/special-input.stories';
 import { EControlTypes } from '@lib/core/aux-data/control-types.enum';
 import {
   IFormStructure,
@@ -27,52 +26,66 @@ interface IFieldFormData {
   disabled: boolean;
   errorMessages: { key: string; value: string }[];
 }
+
 export class FieldFormClass extends CommonFormClass {
   public fields(): IFormStructure {
     return {
       type: {
         placeholder: 'Selecciona el tipo de control',
         label: 'Tipo de control',
-        styleClasses: 'px-2 box-border md:w-1/4',
+        styleClasses: 'px-2 box-border md:w-2/4',
+        required: true,
         type: EControlTypes.dropdown,
         settings: {
           fieldId: 'value',
           fieldName: 'value',
-          source: of(EnumToArray(EControlTypes)),
+          source: of(
+            EnumToArray(EControlTypes).filter(
+              (type) =>
+                ![
+                  EControlTypes.array,
+                  EControlTypes.form,
+                  EControlTypes.default,
+                  EControlTypes.pkey,
+                  EControlTypes.time,
+                ].includes(type.value)
+            )
+          ),
         },
       },
       placeholder: {
         placeholder: '',
         label: 'Placeholder',
-        styleClasses: 'px-2 box-border md:w-1/4',
+        styleClasses: 'px-2 box-border md:w-2/4',
         type: EControlTypes.input,
         settings: {},
       },
       label: {
         placeholder: '',
         label: 'Etiqueta',
-        styleClasses: 'px-2 box-border md:w-1/4',
+        styleClasses: 'px-2 box-border md:w-2/4',
         type: EControlTypes.input,
         settings: {},
       },
       name: {
         placeholder: '',
         label: 'Nombre del campo',
-        styleClasses: 'px-2 box-border md:w-1/4',
+        styleClasses: 'px-2 box-border md:w-2/4',
+        required: true,
         type: EControlTypes.input,
         settings: {},
       },
       tooltip: {
         placeholder: '',
         label: 'Mensaje de ayuda',
-        styleClasses: 'px-2 box-border md:w-1/4',
+        styleClasses: 'px-2 box-border md:w-2/4',
         type: EControlTypes.input,
         settings: {},
       },
       length: {
         placeholder: '',
         label: 'Largo permitido',
-        styleClasses: 'px-2 box-border md:w-1/4',
+        styleClasses: 'px-2 box-border md:w-2/4',
         type: EControlTypes.input,
         settings: {
           mask: numberMask(),

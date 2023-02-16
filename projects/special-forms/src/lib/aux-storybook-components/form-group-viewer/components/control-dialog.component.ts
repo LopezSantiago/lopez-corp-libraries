@@ -1,24 +1,8 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
-import {
-  combineLatest,
-  debounceTime,
-  filter,
-  forkJoin,
-  map,
-  of,
-  startWith,
-  Subject,
-  Subscription,
-  switchMap,
-  tap,
-} from 'rxjs';
+import { debounceTime, filter, map, Subscription, switchMap, tap } from 'rxjs';
 import { EControlTypes } from '../../../core/aux-data/control-types.enum';
-import {
-  SpecialFormControl,
-  SpecialFormGroup,
-} from '../../../core/forms/special-forms';
-import { TRawFields } from '../../../core/interfaces/form.interfaces';
+import { SpecialFormGroup } from '../../../core/forms/special-forms';
 import { SpecialFormBuilderService } from '../../../core/services';
 import { FieldFormClass } from './settings-strategy/field.form';
 import { CommonFormCreator } from './settings-strategy/common.form.interface';
@@ -27,6 +11,9 @@ import { DropDownFormClass } from './settings-strategy/dropdown.form';
 import { AutocompleteFormClass } from './settings-strategy/autocomplete.form';
 import { DatePickerFormClass } from './settings-strategy/datepicker.form';
 import { CheckboxFormClass } from './settings-strategy/checkbox.form';
+import { UploadFormClass } from './settings-strategy/upload.form';
+import { TextAreaFormClass } from './settings-strategy/text-area.form';
+import { IFormStructure } from '@lib/core/interfaces/form.interfaces';
 
 @Component({
   selector: 'spf-control-dialog',
@@ -35,12 +22,15 @@ import { CheckboxFormClass } from './settings-strategy/checkbox.form';
   encapsulation: ViewEncapsulation.None,
 })
 export class ControlDialogComponent implements OnInit {
+  private formField = new FieldFormClass();
+  private formGroup: SpecialFormGroup = this.formBuilder.group(
+    this.formField.fields()
+  );
+  reloadCheck = true;
   sub = new Subscription();
-  formGroup: SpecialFormGroup;
   settingsForm: SpecialFormGroup;
   control: SpecialFormGroup;
-  formField = new FieldFormClass();
-  settingsCreator: CommonFormCreator;
+  field: IFormStructure;
 
   constructor(
     private formBuilder: SpecialFormBuilderService,
@@ -48,36 +38,34 @@ export class ControlDialogComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.formGroup = this.formBuilder.group(this.formField.fields());
-
+    let settingsCreator: CommonFormCreator;
     this.formGroup
       .get('type')
       .valueChanges.pipe(
         filter((type) => !!type),
-        tap((type) => {
-          this.settingsCreator = this.settingsCreation(type);
-          const settingsForm = this.formBuilder.group(
-            this.settingsCreator.settingsFields()
-          );
+        tap((type) => (settingsCreator = this.settingsCreation(type))),
+        map(
+          () =>
+            this.formBuilder.group(settingsCreator.settingsFields(), {
+              label: 'Configuración',
+            }) as SpecialFormGroup
+        ),
+        tap(() => (this.reloadCheck = false)),
+        debounceTime(20),
+        tap(() => (this.reloadCheck = true)),
+        switchMap((settingsForm) => {
           this.formGroup.setControl('settings', settingsForm);
-        })
+          return this.formGroup.valueChanges;
+        }),
+        debounceTime(20)
       )
-      .subscribe();
-
-    this.formGroup.valueChanges.pipe(debounceTime(10)).subscribe((value) => {
-      console.log(value);
-      // const control = this.formBuilder.control(value);
-      // console.log(control);
-      // console.log(this.formGroup);
-    });
-    // this.sub.add(
-    //   combineLatest([this.formGroup.valueChanges, settings$])
-    //     .pipe(debounceTime(10))
-    //     .subscribe(([control, settings]) => {
-    //       // const field = this.formField.getField(control, settings);
-    //       // this.control = this.formBuilder.group(field);
-    //     })
-    // );
+      .subscribe((rawField) => {
+        this.field = this.formField.getField(
+          rawField,
+          settingsCreator.getSettings(rawField.settings)
+        );
+        this.control = this.formBuilder.group(this.field);
+      });
   }
 
   settingsCreation(type: EControlTypes): CommonFormCreator {
@@ -93,12 +81,20 @@ export class ControlDialogComponent implements OnInit {
         return new DatePickerFormClass();
       case EControlTypes.checkbox:
         return new CheckboxFormClass();
+      case EControlTypes.upload:
+        return new UploadFormClass();
       default:
-        return new InputFormClass();
+        return new TextAreaFormClass();
     }
   }
 
-  cancel() {}
+  addControl() {
+    this.dialogRef.close(this.field);
+  }
+
+  cancel() {
+    this.dialogRef.close();
+  }
 
   ngOnDestroy() {
     this.sub.unsubscribe();

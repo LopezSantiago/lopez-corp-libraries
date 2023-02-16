@@ -6,7 +6,7 @@ export enum EControlTypes {
   date = 'DATE',
   time = 'TIME',
   checkbox = 'CHECKBOX',
-  file = 'FILE',
+  upload = 'UPLOAD',
   autocomplete = 'AUTOCOMPLETE',
   multiple = 'MULTIPLE-AUTOCOMPLETE',
   array = 'ARRAY',

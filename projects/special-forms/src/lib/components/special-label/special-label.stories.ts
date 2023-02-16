@@ -75,7 +75,7 @@ light.args = {
     console.log('go to a url');
   },
   isLink: false,
-  theme: 'light',
+  theme: 'light-theme',
   defaultValue: 'Default',
   icon2: 'search',
   mask: null,
@@ -91,7 +91,7 @@ dark.args = {
     console.log('go to a url', value);
   },
   isLink: false,
-  theme: 'dark',
+  theme: 'dark-theme',
   defaultValue: 'Default',
   icon2: 'search',
   mask: null,

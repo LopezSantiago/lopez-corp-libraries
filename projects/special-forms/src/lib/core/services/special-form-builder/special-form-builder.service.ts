@@ -79,8 +79,11 @@ export class SpecialFormBuilderService {
     return control;
   }
 
-  public group(fields: IFormStructure) {
-    return this.formGenerator(this.fieldDataToArray(fields), {});
+  public group(
+    fields: IFormStructure,
+    parentField: Partial<TSpecialForm> = {}
+  ) {
+    return this.formGenerator(this.fieldDataToArray(fields), parentField);
   }
 
   public array() {}
@@ -104,24 +107,14 @@ export class SpecialFormBuilderService {
 
   private formGenerator(
     fields: TSpecialFields[],
-    parentField: Partial<TSpecialForm>,
-    isChild = false
+    parentField: Partial<TSpecialForm> = {}
   ): SpecialFormGroup {
     const formField: TSpecialForm = {
       ...this.formDefectField,
       ...parentField,
     };
     const structure = fields
-      .map((field) => {
-        switch (field.type) {
-          case EControlTypes.array:
-            return this.setFormArray(field);
-          case EControlTypes.form:
-            return this.setFormGroup(field);
-          default:
-            return this.setFormControl(field);
-        }
-      })
+      .map((field) => this.getControlAndNameByType(field))
       .reduce(
         (prev, { name, control }: IControlParams) => ({
           ...prev,
@@ -129,7 +122,18 @@ export class SpecialFormBuilderService {
         }),
         {}
       );
-    return new SpecialFormGroup(formField, structure, isChild);
+    return new SpecialFormGroup(formField, structure);
+  }
+
+  private getControlAndNameByType(field: TSpecialFields) {
+    switch (field.type) {
+      case EControlTypes.array:
+        return this.setFormArray(field);
+      case EControlTypes.form:
+        return this.setFormGroup(field);
+      default:
+        return this.setFormControl(field);
+    }
   }
 
   private setFormGroup(field: TSpecialForm): {
@@ -138,8 +142,7 @@ export class SpecialFormBuilderService {
   } {
     const control = this.formGenerator(
       this.fieldDataToArray(field.settings.formFields),
-      field,
-      true
+      field
     );
     return { control, name: field.name };
   }
@@ -151,8 +154,7 @@ export class SpecialFormBuilderService {
     const auxForm = (value = {}) => {
       const auxForm = this.formGenerator(
         this.fieldDataToArray(field.settings.formFields),
-        {},
-        true
+        {}
       );
       auxForm.reset(value);
       return auxForm;

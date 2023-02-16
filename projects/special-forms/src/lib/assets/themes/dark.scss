@@ -1,0 +1,80 @@
+$primary-dark-palette: (
+  50: #e0f5f9,
+  100: #b3e5f0,
+  200: #80d4e6,
+  300: #4dc2db,
+  400: #26b5d4,
+  500: #00a8cc,
+  600: #00a0c7,
+  700: #0097c0,
+  800: #008db9,
+  900: #007dad,
+  A100: #d7f2ff,
+  A200: #a4e1ff,
+  A400: #71d1ff,
+  A700: #58c9ff,
+  contrast: (
+    50: #000000,
+    100: #000000,
+    200: #000000,
+    300: #000000,
+    400: #000000,
+    500: #ffffff,
+    600: #ffffff,
+    700: #ffffff,
+    800: #ffffff,
+    900: #ffffff,
+    A100: #000000,
+    A200: #000000,
+    A400: #000000,
+    A700: #000000,
+  ),
+);
+
+$accent-dark-palette: (
+  50: #ebf2ef,
+  100: #ceddd7,
+  200: #adc7bd,
+  300: #8cb1a3,
+  400: #73a08f,
+  500: #5a8f7b,
+  600: #528773,
+  700: #487c68,
+  800: #3f725e,
+  900: #2e604b,
+  A100: #abffdb,
+  A200: #78ffc5,
+  A400: #45ffaf,
+  A700: #2bffa4,
+  contrast: (
+    50: #000000,
+    100: #000000,
+    200: #000000,
+    300: #000000,
+    400: #000000,
+    500: #ffffff,
+    600: #ffffff,
+    700: #ffffff,
+    800: #ffffff,
+    900: #ffffff,
+    A100: #000000,
+    A200: #000000,
+    A400: #000000,
+    A700: #000000,
+  ),
+);
+
+$primary-dark: mat.define-palette($primary-dark-palette);
+$accent-dark: mat.define-palette($accent-dark-palette);
+$warn: mat.define-palette(mat.$red-palette);
+$dark-text: rgb(200, 200, 200);
+
+$dark-theme: mat.define-dark-theme(
+  (
+    color: (
+      primary: $primary-dark,
+      accent: $accent-dark,
+      warn: $warn,
+    ),
+  )
+);

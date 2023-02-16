@@ -1,1 +1,1 @@
-export const THEMES_CONTROL = { control: 'radio', options: ['light', 'dark'] };
+export const THEMES_CONTROL = { control: 'radio', options: ['light-theme', 'dark-theme'] };

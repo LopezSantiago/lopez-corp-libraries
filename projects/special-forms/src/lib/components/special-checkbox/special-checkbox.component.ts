@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  OnInit,
+} from '@angular/core';
 import { SpecialFormControl } from '../../core/forms/special-forms';
 import { ICheckboxSettings } from './special-checkbox.interface';
 @Component({
@@ -9,12 +14,6 @@ import { ICheckboxSettings } from './special-checkbox.interface';
 })
 export class SpecialCheckboxComponent implements OnInit {
   @Input() control: SpecialFormControl<ICheckboxSettings>;
-
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
-
-
+  constructor() {}
+  ngOnInit(): void {}
 }

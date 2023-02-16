@@ -1,0 +1,78 @@
+$primary-light-palette: (
+  50: #e4e6e9,
+  100: #bbbfc7,
+  200: #8e95a2,
+  300: #616b7d,
+  400: #3f4b61,
+  500: #1d2b45,
+  600: #1a263e,
+  700: #152036,
+  800: #111a2e,
+  900: #0a101f,
+  A100: #5e89ff,
+  A200: #2b64ff,
+  A400: #0042f7,
+  A700: #003bde,
+  contrast: (
+    50: #000000,
+    100: #000000,
+    200: #000000,
+    300: #ffffff,
+    400: #ffffff,
+    500: #ffffff,
+    600: #ffffff,
+    700: #ffffff,
+    800: #ffffff,
+    900: #ffffff,
+    A100: #000000,
+    A200: #ffffff,
+    A400: #ffffff,
+    A700: #ffffff,
+  ),
+);
+$accent-light-palette: (
+  50: #eafcfc,
+  100: #cbf9f7,
+  200: #a9f5f1,
+  300: #87f0eb,
+  400: #6dede7,
+  500: #53eae3,
+  600: #4ce7e0,
+  700: #42e4dc,
+  800: #39e1d8,
+  900: #29dbd0,
+  A100: #ffffff,
+  A200: #e6fffd,
+  A400: #b3fffa,
+  A700: #9afff9,
+  contrast: (
+    50: #000000,
+    100: #000000,
+    200: #000000,
+    300: #000000,
+    400: #000000,
+    500: #000000,
+    600: #000000,
+    700: #000000,
+    800: #000000,
+    900: #000000,
+    A100: #000000,
+    A200: #000000,
+    A400: #000000,
+    A700: #000000,
+  ),
+);
+
+$primary-light: mat.define-palette($primary-light-palette);
+$accent-light: mat.define-palette($accent-light-palette);
+$warn-light: mat.define-palette(mat.$red-palette);
+
+$light-theme: mat.define-light-theme(
+  (
+    color: (
+      primary: $primary-light,
+      accent: $accent-light,
+      warn: $warn-light
+    ),
+  )
+);

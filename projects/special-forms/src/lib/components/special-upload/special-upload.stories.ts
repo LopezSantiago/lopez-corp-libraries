@@ -52,7 +52,7 @@ const Template: Story<FormControlViewerComponent> = (
     </spf-form-control-viewer>`,
   props: {
     ...args,
-    type: EControlTypes.file,
+    type: EControlTypes.upload,
   },
 });
 
@@ -62,7 +62,7 @@ light.args = {
   label: 'Añade foto o video',
   placeholder: 'O arrastra y suelta la foto/video',
   icon: 'upload_file',
-  theme: 'light',
+  theme: 'light-theme',
   accept: '',
   multiple: false,
   defaultValue: [],
@@ -74,7 +74,7 @@ dark.args = {
   label: 'Añade foto o video',
   placeholder: 'O arrastra y suelta la foto/video',
   icon: 'upload_file',
-  theme: 'dark',
+  theme: 'dark-theme',
   accept: '',
   multiple: false,
   defaultValue: [],

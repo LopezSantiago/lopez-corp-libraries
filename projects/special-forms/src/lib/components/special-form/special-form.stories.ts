@@ -36,14 +36,10 @@ const Template: Story<FormGroupViewerComponent> = (
 
 export const light = Template.bind({});
 light.args = {
-
-  theme: 'light',
-
+  theme: 'light-theme',
 };
 
 export const dark = Template.bind({});
 dark.args = {
-
-  theme: 'dark',
-
+  theme: 'dark-theme',
 };

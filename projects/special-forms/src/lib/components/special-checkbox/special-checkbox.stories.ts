@@ -60,7 +60,7 @@ const Template: Story<FormControlViewerComponent> = (
 export const light = Template.bind({});
 light.args = {
   ...FieldBasicData,
-  theme: 'light',
+  theme: 'light-theme',
   defaultValue: false,
   indeterminate: false,
   labelPosition: 'before',
@@ -69,7 +69,7 @@ light.args = {
 export const dark = Template.bind({});
 dark.args = {
   ...FieldBasicData,
-  theme: 'dark',
+  theme: 'dark-theme',
   defaultValue: true,
   indeterminate: false,
   labelPosition: 'before',

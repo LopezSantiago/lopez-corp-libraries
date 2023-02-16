@@ -8,30 +8,8 @@ import { ICONS_CONTROL } from '../../core/controls';
 import { MasksEnum } from '../../core/masks/maks.enum';
 import { FieldBasicData } from '../../core/aux-data/field-basic-data';
 import { THEMES_CONTROL } from '../../core/controls/theme.control';
-export const InputTypes = [
-  'button',
-  'checkbox',
-  'color',
-  'date',
-  'datetime-local',
-  'email',
-  'file',
-  'hidden',
-  'image',
-  'month',
-  'number',
-  'password',
-  'radio',
-  'range',
-  'reset',
-  'search',
-  'submit',
-  'tel',
-  'text',
-  'time',
-  'url',
-  'week',
-];
+import { InputTypes } from '@lib/core/aux-data/input-types';
+
 export default {
   title: 'Special input control',
   component: FormControlViewerComponent,
@@ -95,7 +73,7 @@ const Template: Story<FormControlViewerComponent> = (
 export const light = Template.bind({});
 light.args = {
   ...FieldBasicData,
-  theme: 'light',
+  theme: 'light-theme',
   defaultValue: 'Default',
   icon2: 'search',
   mask: null,
@@ -105,7 +83,7 @@ light.args = {
 export const dark = Template.bind({});
 dark.args = {
   ...FieldBasicData,
-  theme: 'dark',
+  theme: 'dark-theme',
   defaultValue: 'Default',
   icon2: 'search',
   mask: null,

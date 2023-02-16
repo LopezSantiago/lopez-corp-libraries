@@ -8,5 +8,5 @@ export type IUploadSettings = {
 
 export interface IUploadField extends IFieldData {
   settings: IUploadSettings;
-  type: EControlTypes.file;
+  type: EControlTypes.upload;
 }

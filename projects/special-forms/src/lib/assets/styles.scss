@@ -1,202 +1,82 @@
 @use '@angular/material' as mat;
 @use "sass:map";
+@include mat.core();
 @import "@angular/material/theming";
 @import "tailwindcss/base";
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
+@import "./themes/dark.scss";
+@import "./themes/light.scss";
 
-@include mat.core();
+@include mat.all-component-themes($light-theme);
 
-$angular-primary-light-palette: (
-  50: #e4e6e9,
-  100: #bbbfc7,
-  200: #8e95a2,
-  300: #616b7d,
-  400: #3f4b61,
-  500: #1d2b45,
-  600: #1a263e,
-  700: #152036,
-  800: #111a2e,
-  900: #0a101f,
-  A100: #5e89ff,
-  A200: #2b64ff,
-  A400: #0042f7,
-  A700: #003bde,
-  contrast: (
-    50: #000000,
-    100: #000000,
-    200: #000000,
-    300: #ffffff,
-    400: #ffffff,
-    500: #ffffff,
-    600: #ffffff,
-    700: #ffffff,
-    800: #ffffff,
-    900: #ffffff,
-    A100: #000000,
-    A200: #ffffff,
-    A400: #ffffff,
-    A700: #ffffff,
-  ),
-);
-$angular-accent-light-palette: (
-  50: #eafcfc,
-  100: #cbf9f7,
-  200: #a9f5f1,
-  300: #87f0eb,
-  400: #6dede7,
-  500: #53eae3,
-  600: #4ce7e0,
-  700: #42e4dc,
-  800: #39e1d8,
-  900: #29dbd0,
-  A100: #ffffff,
-  A200: #e6fffd,
-  A400: #b3fffa,
-  A700: #9afff9,
-  contrast: (
-    50: #000000,
-    100: #000000,
-    200: #000000,
-    300: #000000,
-    400: #000000,
-    500: #000000,
-    600: #000000,
-    700: #000000,
-    800: #000000,
-    900: #000000,
-    A100: #000000,
-    A200: #000000,
-    A400: #000000,
-    A700: #000000,
-  ),
-);
+.dark-theme {
+  @include mat.all-component-colors($dark-theme);
+  color: $dark-text;
+  .mat-menu-content,
+  .mat-select-panel,
+  .mat-datepicker-content,
+  .special_upload__dropzone,
+  .mat-autocomplete-panel {
+    background: linear-gradient(
+      93deg,
+      rgba(0, 0, 0, 1) 0%,
+      rgba(29, 43, 69, 1) 0%,
+      rgba(27, 15, 46, 1) 100%
+    );
+  }
 
-$angular-primary-dark-palette: (
-  50: #e0f5f9,
-  100: #b3e5f0,
-  200: #80d4e6,
-  300: #4dc2db,
-  400: #26b5d4,
-  500: #00a8cc,
-  600: #00a0c7,
-  700: #0097c0,
-  800: #008db9,
-  900: #007dad,
-  A100: #d7f2ff,
-  A200: #a4e1ff,
-  A400: #71d1ff,
-  A700: #58c9ff,
-  contrast: (
-    50: #000000,
-    100: #000000,
-    200: #000000,
-    300: #000000,
-    400: #000000,
-    500: #ffffff,
-    600: #ffffff,
-    700: #ffffff,
-    800: #ffffff,
-    900: #ffffff,
-    A100: #000000,
-    A200: #000000,
-    A400: #000000,
-    A700: #000000,
-  ),
-);
+  .mat-select-value,
+  .mat-datepicker-content,
+  .special_upload__dropzone,
+  .mat-calendar-body-cell-content,
+  .mat-calendar-body-selected,
+  .mat-calendar-body-today,
+  .mat-datepicker-content .mat-calendar-next-button,
+  .mat-datepicker-content .mat-calendar-previous-button,
+  .mat-datepicker-toggle,
+  .mat-calendar-body-disabled,
+  .mat-option-text {
+    color: $dark-text;
+  }
 
-$angular-accent-dark-palette: (
-  50: #ebf2ef,
-  100: #ceddd7,
-  200: #adc7bd,
-  300: #8cb1a3,
-  400: #73a08f,
-  500: #5a8f7b,
-  600: #528773,
-  700: #487c68,
-  800: #3f725e,
-  900: #2e604b,
-  A100: #abffdb,
-  A200: #78ffc5,
-  A400: #45ffaf,
-  A700: #2bffa4,
-  contrast: (
-    50: #000000,
-    100: #000000,
-    200: #000000,
-    300: #000000,
-    400: #000000,
-    500: #ffffff,
-    600: #ffffff,
-    700: #ffffff,
-    800: #ffffff,
-    900: #ffffff,
-    A100: #000000,
-    A200: #000000,
-    A400: #000000,
-    A700: #000000,
-  ),
-);
-$angular-primary-light: mat.define-palette($angular-primary-light-palette);
-$angular-accent-light: mat.define-palette($angular-primary-light-palette);
-$angular-primary-dark: mat.define-palette($angular-primary-dark-palette);
-$angular-accent-dark: mat.define-palette($angular-primary-dark-palette);
-$angular-warn: mat.define-palette(mat.$red-palette);
+  .special_upload__dropzone {
+    border-color: $dark-text;
+  }
 
-$angular-default-theme: mat.define-light-theme(
-  (
-    color: (
-      primary: $angular-primary-light,
-      accent: $angular-accent-light,
-      warn: $angular-warn,
-    ),
-  )
-);
-
-@include mat.all-component-themes($angular-default-theme);
-
-$angular-dark-theme: mat.define-dark-theme(
-  (
-    color: (
-      primary: $angular-primary-dark,
-      accent: $angular-accent-dark,
-      warn: $angular-warn,
-    ),
-  )
-);
-
-.dark {
-  // @include mat.all-component-themes($angular-dark-theme);
-  @include mat.all-component-colors($angular-dark-theme);
-  color: rgb(160, 160, 160);
-
-  .special_upload {
-    &__title{
-
-    }
-    &__dropzone {
-      background-color: #0a101f;
-      color: white;
-    }
-
-    &--error-dashed {
-      border: 2px dashed map.get(mat.$red-palette, 500) !important;
-    }
-
-    &--error {
-      color: map.get(mat.$red-palette, 500) !important;
-    }
+  .mat-calendar-arrow {
+    fill: $dark-text;
   }
 }
+// color: rgb(160, 160, 160);
 
-.dialog-panel {
-  &-no-padding {
-    .mat-dialog-container {
-      padding: 0px !important;
-      border-radius: 9px;
-    }
-  }
-}
+// .special_upload {
+//   &__title{
+
+//   }
+//   &__dropzone {
+//     background-color: #0a101f;
+//     color: white;
+//   }
+
+//   &--error-dashed {
+//     border: 2px dashed map.get(mat.$red-palette, 500) !important;
+//   }
+
+//   &--error {
+//     color: map.get(mat.$red-palette, 500) !important;
+//   }
+// }
+// }
+
+// .dialog-panel {
+//   &-no-padding {
+//     .mat-dialog-container {
+//       padding: 0px !important;
+//       border-radius: 9px;
+//     }
+//   }
+// }
 // .dark {
 //   background-color: rgb(16, 22, 37);
 //   border-radius: 8px;

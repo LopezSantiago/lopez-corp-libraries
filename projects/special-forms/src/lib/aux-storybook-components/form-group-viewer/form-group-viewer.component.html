@@ -5,6 +5,33 @@
     </button>
   </div>
   <div>
-    <sp-form [control]="formGroup"></sp-form>
+    <div
+      *ngIf="formGroup$ | async as formGroup"
+      cdkDropList
+      (cdkDropListDropped)="drop($event)"
+      class="w-full flex flex-wrap"
+    >
+      <div
+        cdkDrag
+        class="control-wrapper {{ control.styleClasses }}"
+        *ngFor="
+          let control of formGroup.controls | controlsList;
+          trackBy: trackByFn;
+        "
+      >
+        <button mat-button (click)="close(control.name)" class="close" color="warn">
+          Delete
+        </button>
+        <div class="control">
+          <ng-template controlRender [control]="control"></ng-template>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="p-5">
+    <button mat-stroked-button color="primary" (click)="generate()">
+      Generar
+    </button>
   </div>
 </div>

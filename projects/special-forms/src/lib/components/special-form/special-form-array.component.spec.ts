@@ -1,6 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { SpecialArrayComponent } from './special-form-array.component';
+import { SpecialArrayComponent } from './special-form.component';
 
 describe('SpecialArrayComponent', () => {
   let component: SpecialArrayComponent;

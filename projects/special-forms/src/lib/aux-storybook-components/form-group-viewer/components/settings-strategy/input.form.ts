@@ -1,6 +1,6 @@
 import { IInputSettings } from '@lib/components/special-input/special-input.interface';
-import { InputTypes } from '@lib/components/special-input/special-input.stories';
 import { EControlTypes } from '@lib/core/aux-data/control-types.enum';
+import { InputTypes } from '@lib/core/aux-data/input-types';
 import { IFormStructure } from '@lib/core/interfaces/form.interfaces';
 import { Masks } from '@lib/core/masks/maks.enum';
 import { InputmaskOptions } from '@ngneat/input-mask';

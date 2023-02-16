@@ -99,7 +99,6 @@ export class SpecialFormGroup extends FormGroup implements IFieldBasicData {
   public type: EControlTypes.form;
   public defaultValue: any;
   public errorMessages: { [key: string]: string };
-  public isChild: boolean;
 
   constructor(
     {
@@ -124,7 +123,6 @@ export class SpecialFormGroup extends FormGroup implements IFieldBasicData {
     controls: {
       [key: string]: SpecialFormControl<any>;
     },
-    isChild
   ) {
     super(controls, validators, asyncValidators);
 
@@ -142,8 +140,6 @@ export class SpecialFormGroup extends FormGroup implements IFieldBasicData {
     this.readOnly = readOnly;
     this.required = required;
     this.defaultValue = defaultValue;
-
-    this.isChild = isChild;
     disabled ? this.disable() : this.enable();
   }
 

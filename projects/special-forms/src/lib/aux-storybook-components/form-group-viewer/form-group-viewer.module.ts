@@ -8,14 +8,21 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { ControlDialogComponent } from './components/control-dialog.component';
 import { MatIconModule } from '@angular/material/icon';
 import { FormControlSelectorModule } from '../form-control-selector/form-control-selector.module';
+import { FormControlsListPipeModule } from '@lib/pipes/controls-list-pipe/controls-list.pipe.module';
+import { ControlsRenderDirectiveModule } from '@lib/core/directives/control-render.module';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 @NgModule({
   declarations: [FormGroupViewerComponent, ControlDialogComponent],
   imports: [
+    ControlsRenderDirectiveModule,
+    FormControlsListPipeModule,
+    DragDropModule,
     CommonModule,
     SpecialFormModule,
     MatButtonModule,
     MatDialogModule,
+    MatButtonModule,
     MatIconModule,
     FormControlSelectorModule,
   ],

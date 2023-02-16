@@ -57,13 +57,13 @@ const Template: Story<FormControlViewerComponent> = (
 export const light = Template.bind({});
 light.args = {
   ...FieldBasicData,
-  theme: 'light',
+  theme: 'light-theme',
   defaultValue: new Date(),
 };
 
 export const dark = Template.bind({});
 dark.args = {
   ...FieldBasicData,
-  theme: 'dark',
+  theme: 'dark-theme',
   defaultValue: new Date(),
 };

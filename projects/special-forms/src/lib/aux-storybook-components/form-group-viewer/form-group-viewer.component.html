@@ -6,7 +6,7 @@
   </div>
   <div>
     <div
-      *ngIf="formGroup$ | async as formGroup"
+      *ngIf="formGroup"
       cdkDropList
       (cdkDropListDropped)="drop($event)"
       class="w-full flex flex-wrap"
@@ -14,12 +14,15 @@
       <div
         cdkDrag
         class="control-wrapper {{ control.styleClasses }}"
-        *ngFor="
-          let control of formGroup.controls | controlsList;
-          trackBy: trackByFn;
-        "
+        *ngFor="let control of formGroup.controls | controlsList"
       >
-        <button mat-button (click)="close(control.name)" class="close" color="warn">
+        <div>{{ control.name }}</div>
+        <button
+          mat-button
+          (click)="close(control.name)"
+          class="close"
+          color="warn"
+        >
           Delete
         </button>
         <div class="control">

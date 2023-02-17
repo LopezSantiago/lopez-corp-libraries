@@ -9,17 +9,16 @@ import {
   SpecialCheckboxModule,
   SpecialTextAreaModule,
   SpecialUploadModule,
-  SpecialArrayModule,
   SpecialLabelModule,
+  SpecialFormModule,
 } from '../../components';
 import { FormControlSelectorComponent } from './form-control-selector.component';
-import { ControlsRenderDirectiveModule } from '../../core/directives/control-render.module';
 
 @NgModule({
   declarations: [FormControlSelectorComponent],
   imports: [
+    SpecialFormModule,
     CommonModule,
-    ControlsRenderDirectiveModule,
     SpecialMultipleAutocompleteModule,
     SpecialDatepickerModule,
     SpecialInputModule,
@@ -28,7 +27,6 @@ import { ControlsRenderDirectiveModule } from '../../core/directives/control-ren
     SpecialCheckboxModule,
     SpecialTextAreaModule,
     SpecialUploadModule,
-    SpecialArrayModule,
     SpecialLabelModule
   ],
   exports: [FormControlSelectorComponent],

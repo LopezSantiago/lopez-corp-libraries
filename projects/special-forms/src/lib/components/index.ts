@@ -24,8 +24,6 @@ import { SpecialTextAreaComponent } from './special-text-area/special-text-area.
 import { SpecialUploadModule } from './special-upload/special-upload.module';
 import { SpecialUploadComponent } from './special-upload/special-upload.component';
 
-import { SpecialArrayModule } from './special-form/special-form-array.module';
-
 import { SpecialLabelModule } from './special-label/special-label.module';
 import { SpecialLabelComponent } from './special-label/special-label.component';
 
@@ -33,6 +31,7 @@ import { SpecialFormModule } from './special-form/special-form.module';
 import {
   SpecialFormComponent,
   SpecialArrayComponent,
+  FormControlsRenderDirective,
 } from './special-form/special-form.component';
 
 export {
@@ -50,12 +49,12 @@ export {
   SpecialTextAreaComponent,
   SpecialUploadModule,
   SpecialUploadComponent,
-  SpecialArrayModule,
   SpecialArrayComponent,
   SpecialLabelComponent,
   SpecialLabelModule,
   SpecialFormComponent,
   SpecialInputModule,
   SpecialFormModule,
+  FormControlsRenderDirective,
   SpecialInputComponent,
 };

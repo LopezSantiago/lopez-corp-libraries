@@ -26,7 +26,6 @@ const Template: Story<FormGroupViewerComponent> = (
   template: `
     <spf-form-group-viewer
       [theme]="theme"
-      [fields]="fields"
       >
     </spf-form-group-viewer>`,
   props: {

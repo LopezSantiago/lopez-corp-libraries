@@ -1,10 +1,9 @@
-import { ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, Directive, ViewContainerRef } from '@angular/core';
 import { Component, Input, OnInit } from '@angular/core';
-import { AbstractControl } from '@angular/forms';
 import { EControlTypes } from '@lib/core/aux-data/control-types.enum';
 import {
   SpecialFormGroup,
-  SpecialFormArray,
+  SpecialFormControl,
 } from '../../core/forms/special-forms';
 import { SpecialAutocompleteComponent } from '../special-autocomplete/special-autocomplete.component';
 import { SpecialCheckboxComponent } from '../special-checkbox/special-checkbox.component';
@@ -24,15 +23,10 @@ import { SpecialUploadComponent } from '../special-upload/special-upload.compone
 })
 export class SpecialFormComponent implements OnInit {
   @Input('control') form: SpecialFormGroup;
-
-  componentsBuffer = ComponentsBuffer;
-
   set control(form: SpecialFormGroup) {
     this.form = form;
   }
-
   ngOnInit(): void {}
-
 }
 
 @Component({
@@ -43,8 +37,6 @@ export class SpecialFormComponent implements OnInit {
 })
 export class SpecialArrayComponent implements OnInit {
   @Input('control') formArray: any;
-
-  componentsBuffer = ComponentsBuffer;
 
   set control(formArray: any) {
     this.formArray = formArray;
@@ -70,16 +62,31 @@ export class SpecialArrayComponent implements OnInit {
   }
 }
 
-export const ComponentsBuffer = {
-  [EControlTypes.autocomplete]: SpecialAutocompleteComponent,
-  [EControlTypes.checkbox]: SpecialCheckboxComponent,
-  [EControlTypes.date]: SpecialDatepickerComponent,
-  [EControlTypes.dropdown]: SpecialDropdownComponent,
-  [EControlTypes.array]: SpecialArrayComponent,
-  [EControlTypes.input]: SpecialInputComponent,
-  [EControlTypes.multiple]: SpecialMultipleAutocompleteComponent,
-  [EControlTypes.textArea]: SpecialTextAreaComponent,
-  [EControlTypes.label]: SpecialLabelComponent,
-  [EControlTypes.upload]: SpecialUploadComponent,
-  [EControlTypes.form]: SpecialFormComponent,
-};
+@Directive({
+  selector: `[controlRender]`,
+})
+export class FormControlsRenderDirective {
+  private readonly componentsBuffer = {
+    [EControlTypes.autocomplete]: SpecialAutocompleteComponent,
+    [EControlTypes.checkbox]: SpecialCheckboxComponent,
+    [EControlTypes.date]: SpecialDatepickerComponent,
+    [EControlTypes.dropdown]: SpecialDropdownComponent,
+    [EControlTypes.array]: SpecialArrayComponent,
+    [EControlTypes.input]: SpecialInputComponent,
+    [EControlTypes.multiple]: SpecialMultipleAutocompleteComponent,
+    [EControlTypes.textArea]: SpecialTextAreaComponent,
+    [EControlTypes.label]: SpecialLabelComponent,
+    [EControlTypes.upload]: SpecialUploadComponent,
+    [EControlTypes.form]: SpecialFormComponent,
+  };
+  @Input('control') set controlSetter(control: SpecialFormControl<any>) {
+    this.viewContainer.clear();
+    const component = this.componentsBuffer[control.type];
+    if (component) {
+      const componentRef = this.viewContainer.createComponent(component);
+      (componentRef.instance as any).control = control;
+    }
+  }
+
+  constructor(private viewContainer: ViewContainerRef) {}
+}

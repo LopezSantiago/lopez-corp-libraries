@@ -9,7 +9,14 @@ import {
 } from '@angular/core';
 import { AbstractControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { BehaviorSubject, filter, map, Subject } from 'rxjs';
+import {
+  BehaviorSubject,
+  filter,
+  map,
+  Observable,
+  Subject,
+  Subscription,
+} from 'rxjs';
 import { EControlTypes } from '../../core/aux-data/control-types.enum';
 import { SpecialFormGroup } from '../../core/forms/special-forms';
 import { IFormStructure } from '../../core/interfaces/form.interfaces';
@@ -23,12 +30,7 @@ import { ControlDialogComponent } from './components/control-dialog.component';
   encapsulation: ViewEncapsulation.None,
 })
 export class FormGroupViewerComponent implements OnInit {
-  private fieldsSub: BehaviorSubject<IFormStructure> = new BehaviorSubject({});
-  formGroup$ = this.fieldsSub
-    .asObservable()
-    .pipe(map((fields) => this.specialFormBuilderService.group(fields)));
-
-  @Input('fields') set fieldSetter(fields: IFormStructure) {}
+  private fields: IFormStructure;
 
   @Input() theme;
 
@@ -57,39 +59,32 @@ export class FormGroupViewerComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((field: IFormStructure) => {
       if (field) {
-        this.fieldsSub.next({
-          ...this.fieldsSub.value,
-          ...field,
-        });
+        this.fields = { ...this.fields, ...field };
+        this.formGroup = this.specialFormBuilderService.group(this.fields);
       }
     });
   }
 
-  trackByFn(
-    _index: number,
-    { name }: { name: string; control: AbstractControl }
-  ) {
-    return name;
-  }
-
   drop(event: CdkDragDrop<string[]>) {
-    const currentFields = Object.entries(this.fieldsSub.value).map(
-      ([key, value]) => ({ [key]: value })
-    );
+    const currentFields = Object.entries(this.fields).map(([key, value]) => ({
+      [key]: value,
+    }));
     moveItemInArray(currentFields, event.previousIndex, event.currentIndex);
     const fields = currentFields.reduce((prev, curr) => {
       return { ...prev, ...curr };
     }, {});
-    this.fieldsSub.next(fields);
+    this.fields = fields;
+    this.formGroup = this.specialFormBuilderService.group(this.fields);
   }
 
   close(name: string) {
-    const nextFields = { ...this.fieldsSub.value };
+    const nextFields = { ...this.fields };
     delete nextFields[name];
-    this.fieldsSub.next(nextFields);
+    this.fields = nextFields;
+    this.formGroup = this.specialFormBuilderService.group(this.fields);
   }
 
   generate() {
-    console.log(JSON.stringify(this.fieldsSub.value));
+    console.log(JSON.stringify(this.fields));
   }
 }

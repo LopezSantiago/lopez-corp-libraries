@@ -1,9 +1,12 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { SpecialFormComponent } from './special-form.component';
+import {
+  FormControlsRenderDirective,
+  SpecialFormComponent,
+  SpecialArrayComponent,
+} from './special-form.component';
 import { MatButtonModule } from '@angular/material/button';
 import { FormControlsListPipeModule } from '../../pipes/controls-list-pipe/controls-list.pipe.module';
-import { ControlsRenderDirectiveModule } from '../../core/directives/control-render.module';
 import {
   SpecialDropdownModule,
   SpecialInputModule,
@@ -13,15 +16,17 @@ import {
   SpecialCheckboxModule,
   SpecialTextAreaModule,
   SpecialUploadModule,
-  SpecialArrayModule,
-  SpecialLabelModule
+  SpecialLabelModule,
 } from '../../components';
 
 @NgModule({
-  declarations: [SpecialFormComponent],
+  declarations: [
+    SpecialArrayComponent,
+    FormControlsRenderDirective,
+    SpecialFormComponent,
+  ],
   imports: [
     CommonModule,
-    ControlsRenderDirectiveModule,
     FormControlsListPipeModule,
     MatButtonModule,
     SpecialDropdownModule,
@@ -33,8 +38,11 @@ import {
     SpecialCheckboxModule,
     SpecialTextAreaModule,
     SpecialUploadModule,
-    SpecialArrayModule,
   ],
-  exports: [SpecialFormComponent],
+  exports: [
+    SpecialArrayComponent,
+    FormControlsRenderDirective,
+    SpecialFormComponent,
+  ],
 })
 export class SpecialFormModule {}

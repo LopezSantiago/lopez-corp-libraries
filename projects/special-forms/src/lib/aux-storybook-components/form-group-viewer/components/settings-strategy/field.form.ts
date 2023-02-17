@@ -53,6 +53,14 @@ export class FieldFormClass extends CommonFormClass {
           ),
         },
       },
+      name: {
+        placeholder: '',
+        label: 'Nombre del campo',
+        styleClasses: 'px-2 box-border md:w-2/4',
+        required: true,
+        type: EControlTypes.input,
+        settings: {},
+      },
       placeholder: {
         placeholder: '',
         label: 'Placeholder',
@@ -67,14 +75,7 @@ export class FieldFormClass extends CommonFormClass {
         type: EControlTypes.input,
         settings: {},
       },
-      name: {
-        placeholder: '',
-        label: 'Nombre del campo',
-        styleClasses: 'px-2 box-border md:w-2/4',
-        required: true,
-        type: EControlTypes.input,
-        settings: {},
-      },
+
       tooltip: {
         placeholder: '',
         label: 'Mensaje de ayuda',

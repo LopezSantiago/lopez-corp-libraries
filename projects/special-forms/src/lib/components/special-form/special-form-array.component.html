@@ -35,7 +35,6 @@
           <ng-template
             *ngFor="let item of formArray.form.controls | controlsList"
             controlRender
-            [components]="componentsBuffer"
             [control]="item"
           ></ng-template>
           <div
@@ -67,7 +66,6 @@
         <ng-template
           *ngFor="let item of formGroup.controls | controlsList"
           controlRender
-          [components]="componentsBuffer"
           [control]="item"
         ></ng-template>
         <div
